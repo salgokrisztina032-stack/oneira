@@ -1,0 +1,1378 @@
+:root {
+  --header-color: #eee6e3;
+  --side-margin: 35px;
+  --header-top: 35px;
+  /* Hozzáadott hiányzó változók */
+  --border: rgba(255, 255, 255, 0.1);
+  --text-h: #eee6e3;
+  --social-bg: rgba(255, 255, 255, 0.05);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Load Sfizia webfont from the project folder */
+@font-face {
+  font-family: 'Sfizia';
+  src: url('/Sfizia-webfont/webfontkit/sfizia-regular-webfont.woff2') format('woff2'),
+       url('/Sfizia-webfont/webfontkit/sfizia-regular-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sfizia';
+  src: url('/Sfizia-webfont/webfontkit/sfizia-bold-webfont.woff2') format('woff2'),
+       url('/Sfizia-webfont/webfontkit/sfizia-bold-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sfizia';
+  src: url('/Sfizia-webfont/webfontkit/sfizia-regularitalic-webfont.woff2') format('woff2'),
+       url('/Sfizia-webfont/webfontkit/sfizia-regularitalic-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Alternate italic flavor (Sfizia Italic No.2) used for the word 'dream' */
+@font-face {
+  font-family: 'Sfizia Italic No2';
+  src: url('/Sfizia-webfont/webfontkit/sfizia-regularitalicno.2-webfont.woff2') format('woff2'),
+       url('/Sfizia-webfont/webfontkit/sfizia-regularitalicno.2-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Light pages (survey steps) → dark header text */
+.light-mode {
+  --header-color: #1A1A1A;
+  --border: rgba(0, 0, 0, 0.1);
+  --text-h: #1A1A1A;
+}
+
+/* Frissítsük a site-header stílusait, hogy a változót használják */
+.site-header .logo,
+.site-header .lang .lang-item {
+  font-size: 18px;
+  color: var(--header-color);
+  transition: color 0.4s ease;
+}
+
+.hero {
+  position: relative;
+}
+
+.hero .base,
+.hero .framework,
+.hero .vite {
+  inset-inline: 0;
+  margin: 0 auto;
+}
+
+.hero .base {
+  width: 170px;
+  position: relative;
+  z-index: 0;
+}
+
+.hero .framework,
+.hero .vite {
+  position: absolute;
+}
+
+.hero .vite {
+  z-index: 10;
+  top: 10px;
+  height: 5px;
+  width: auto;
+  transform: perspective(1000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
+}
+
+#center {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  place-content: center;
+  place-items: center;
+  flex-grow: 1;
+}
+
+.icon {
+  margin-bottom: 16px;
+  width: 22px;
+  height: 22px;
+}
+
+#docs {
+  border-right: 1px solid var(--border);
+}
+
+#next-steps ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 8px;
+  margin: 32px 0 0;
+}
+
+#next-steps ul .logo {
+  height: 16px;
+}
+
+#next-steps ul a {
+  color: var(--text-h);
+  font-size: 30px;
+  border-radius: 6px;
+  background: var(--social-bg);
+  display: flex;
+  padding: 6px 12px;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: box-shadow 0.3s;
+}
+
+#next-steps ul a:hover {
+  box-shadow: var(--shadow);
+}
+
+#next-steps ul a .button-icon {
+  height: 20px;
+  width: 20px;
+}
+
+#spacer {
+  height: 88px;
+  border-top: 1px solid var(--border);
+}
+
+.ticks {
+  position: relative;
+  width: 100%;
+}
+
+.ticks::before,
+.ticks::after {
+  content: '';
+  position: absolute;
+  top: -4.5px;
+  border: 5px solid transparent;
+}
+
+.ticks::before {
+  left: 0;
+  border-left-color: var(--border);
+}
+
+.ticks::after {
+  right: 0;
+  border-right-color: var(--border);
+}
+
+/* --- Hero page styles --- */
+.app-root {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: transparent !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+body,
+.app-root,
+.hero,
+.survey-page,
+.bg-canvas {
+  background-image: none !important;
+  background-size: auto !important;
+  background-repeat: repeat !important;
+}
+
+
+.hero-cta {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 90px;
+  display: flex;
+  justify-content: center;
+  z-index: 100;
+}
+
+.pill.cta {
+  position: relative;
+  overflow: hidden;
+
+  background: rgba(255,255,255,0.199);
+  border: 1px solid rgba(255,255,255,0.5);
+
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+
+  padding: 16px 40px;
+  max-width: 220px;
+  border-radius: 999px;
+
+  color: #EEE6E3;
+  font-size: 16px;
+  text-transform: lowercase;
+
+  box-shadow:
+    0 6px 6px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+.pill:active {
+  transform: none !important;
+  transition: box-shadow 0.1s ease;
+}
+
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.06;
+  background-image: radial-gradient(#ffffff 0.6px, transparent 0.6px);
+  background-size: 3px 3px;
+}
+
+.site-header {
+  position: absolute;
+  top: 20px;
+  left: 35px;
+  right: 35px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Ez tartja egy vonalban a logót és a nyelvi gombokat */
+  height: 60px; /* Legyen elég magas a biztonság kedvéért */
+  z-index: 100;
+}
+
+.logo {
+  /* Ez a kulcs: a logó konténere marad a helyén, de nem foglal helyet */
+  position: relative;
+  width: 140px; 
+  height: 40px;
+}
+
+.logo-img {
+  /* Itt már akkorára állíthatod, amekkorára csak akarod! */
+  height: 160px; /* Próbáld ki pl. 120px-szel */
+  width: auto;
+  
+  /* Abszolút pozícióval kivesszük a sorból */
+  position: absolute;
+  top: 50%;
+  left: -38px;
+  transform: translateY(-50%); /* Tökéletesen középre igazítja a láthatatlan ponthoz képest */
+  
+  display: block;
+  filter: brightness(0) invert(1);
+  transition: filter 0.4s ease;
+  pointer-events: auto; /* Hogy továbbra is lehessen rá kattintani */
+}
+
+.light-mode .logo-img {
+  filter: brightness(0);
+}
+
+.central-logo-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.central-logo-img {
+  height: 80px; /* Állítsd be a kívánt méretet */
+  width: auto;
+  filter: var(--header-color-filter); /* Vagy a meglévő brightness/invert */
+}
+
+.site-header .lang {
+  display: flex;
+  margin-right: -8px;
+  gap: 12px;
+  align-items: center;
+}
+
+.site-header .lang .lang-item {
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  line-height: 1;
+  height: 20px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  opacity: 1;
+  background: transparent;
+  border: none;
+  padding: 4px 4px;
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  color: var(--header-color);
+  transition: color 0.4s ease, font-weight 0.1s ease;
+}
+
+.site-header .lang .lang-item.active {
+  font-weight: 700;
+}
+
+.site-header .lang .lang-sep {
+  width: 8px;
+}
+
+.site-header .logo {
+  display: inline-flex;
+  align-items: center;
+}
+/* Use the special Sfizia Italic No.2 for the small emphasized word 'dream' */
+.hero-italic {
+  font-family: 'Sfizia Italic No2', 'Sfizia', serif;
+  font-style: italic;
+  display: inline-block;
+  transform: translateY(-4px);
+  font-weight: 400;
+}
+
+/* Give more space between the two lines of the hero title */
+.hero-title .hero-line {
+  display: block;
+}
+
+.hero-title .hero-line + .hero-line {
+  margin-top: 0px;
+}
+
+.hero {
+  position: relative;
+  z-index: 20;
+  /* dark hero background to match requested aesthetic */
+  background: transparent !important;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 3vw;
+}
+
+.hero-inner {
+  max-width: 1400px;
+  width: 100%;
+}
+
+.hero-title {
+  margin: 0;
+  color: #EEE6E3;
+  font-family: 'Sfizia', serif;
+  font-weight: 200;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-size: clamp(46px, 9.5vw, 160px);
+  animation: heroEntrance 1s cubic-bezier(.2,.9,.2,1) both,
+    heroFloat 6s ease-in-out 1s infinite;
+}
+
+/* --- Survey / next page styles --- */
+.survey-page {
+  position: absolute;
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.survey-page {
+  background: linear-gradient(
+    180deg,
+    rgba(238, 230, 227, 0.7) 0%,
+    rgba(78, 129, 148, 0.6) 55%,
+    rgba(26, 26, 26, 0.6) 100%
+  ) !important;
+}
+
+.survey-page.fragment-page {
+  background: linear-gradient(
+    180deg,
+    rgba(238, 230, 227, 0.9) 20%,
+    rgba(78, 129, 148, 0.7) 60%,
+    rgba(26, 26, 26, 0.9) 100%
+  ) !important;
+}
+
+.survey-page.emotion-page {
+  background: linear-gradient(
+    180deg,
+    rgba(238, 230, 227, 0.9) 0%,
+    rgba(78, 129, 148, 0.7) 100%
+  ) !important;
+}
+
+.survey-page.clarity-page {
+  background: linear-gradient(
+    160deg,
+    rgba(238, 230, 227, 0.9) 0%,
+    rgba(78, 129, 148, 0.6) 60%,
+    rgba(26, 26, 26, 0.9) 100%
+  ) !important;
+}
+
+.survey-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  width: 100%;
+  padding: 70px var(--side-margin) 0;
+  box-sizing: border-box;
+}
+
+.title-block {
+  min-height: 210px;
+  max-width: 920px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+  width: 100%;
+  margin-top: 8px;
+  margin-bottom: 15px;
+  min-height: 160px;
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+
+.survey-title {
+  font-family: 'Sfizia', serif;
+  font-size: clamp(32px, 5vh, 56px);
+  margin: 0 0 10px;
+  line-height: 1.2;
+  color: #1A1A1A;
+}
+
+.survey-title .hero-italic {
+  font-family: 'Sfizia Regular Italic', 'Sfizia', serif;
+  font-style: italic;
+  font-weight: 500;
+  display: inline-block;
+  transform: translateY(0.5px);
+  margin-left: -0.04em;
+  margin-right: -0.02em;
+  font-optical-sizing: auto;
+}
+
+.survey-sub {
+  font-family: 'Inter', sans-serif;
+  text-transform: lowercase;
+  font-size: 20px;
+  color: #1A1A1A;
+  opacity: 0.9;
+  margin: 8px 0 8px 0;
+  letter-spacing: 0.12em;
+}
+
+.pill-grid {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  margin-top: 8px;
+  flex: 0 0 auto;
+  overflow-y: visible;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pill-grid.vertical {
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 40vh;
+  margin: 10px auto 0;
+}
+
+.pill-grid.vertical .pill {
+  width: 100%;
+  min-width: unset;
+}
+
+/* --- ALAPÁLLAPOT --- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: 0 0 auto;
+  min-width: 180px;
+  max-width: 90vw;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 300;
+  color: rgba(238, 230, 227, 0.95);
+  text-transform: lowercase;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  background: rgba(255, 255, 255, 0.001);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(100px) saturate(100%) brightness(110%);
+  -webkit-backdrop-filter: blur(100px) saturate(100%) brightness(110%);
+  box-shadow: none;
+  outline: none;
+}
+
+/* --- AKTÍV ÁLLAPOT --- */
+.pill.active,
+.pill:active {
+  color: rgba(26, 26, 26, 1) !important;
+  background: rgba(238, 230, 227, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.60) !important;
+  backdrop-filter: blur(1px) !important;
+  -webkit-backdrop-filter: blur(1px) !important;
+  transform: scale(0.98);
+  transition: background 0.4s ease, border-color 0.4s ease, transform 0.15s ease;
+}
+
+.survey-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px; /* Fix magasság */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.back-arrow,
+.next-arrow {
+  position: absolute;
+  color: #EEE6E3; /* A világos krémszíned */
+  transition: color 0.4s ease, opacity 0.4s ease;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0;
+  color: #EEE6E3;
+}
+
+.next-arrow.disabled {
+  /* Az #EEE6E3 sötétebb, szürkített változata */
+  color: #7A7471 !important; 
+  
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+  transition: color 0.4s ease;
+}
+
+.back-arrow {
+  left: 20px;
+}
+
+.next-arrow {
+  right: 20px;
+}
+
+.arrow-icon {
+  width: 90px;
+  height: 90px;
+  display: block;
+  stroke-width: 1px;
+}
+
+.back-arrow:active,
+.next-arrow:active {
+  transform: translateY(-50%) !important;
+  transition: none !important;
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #EEE6E3;
+  opacity: 0.2;
+}
+
+.dot.active {
+  width: 17px;
+  height: 17px;
+  opacity: 1;
+}
+
+.survey-page.fragment-page {
+  background: linear-gradient(
+    160deg,
+    rgba(238, 230, 227, 0.7) 0%,
+    rgba(78, 129, 148, 0.8) 55%,
+    rgba(26, 26, 26, 0.9) 100%
+  ) !important;
+}
+
+/* --- EMOTION PAGE SPECIÁLIS HÁTTÉR --- */
+.survey-page.emotion-page {
+  background: linear-gradient(
+    180deg,
+    rgba(238, 230, 227, 0.9) 0%,
+    rgba(78, 129, 148, 0.7) 100%
+  ) !important;
+}
+
+/* --- SLIDER ELRENDEZÉS --- */
+.slider-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: center;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  overflow-y: visible;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Emotion page: make emotion labels bold and readable on light background */
+.survey-page.emotion-page .slider-label {
+  font-weight: 700;
+  color: #EEE6E3;
+}
+
+/* Clarity page: wider, centered slider and bold percentage */
+.survey-page.clarity-page .slider-container {
+  max-width: 1100px;
+  width: 90%;
+  margin-top: 13vh;
+  margin-bottom: 6vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.survey-page.clarity-page .slider-row {
+  width: 100%;
+  max-width: 920px;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.survey-page.clarity-page .custom-slider {
+  width: 100% !important;
+  max-width: 920px;
+}
+
+.survey-page.clarity-page .slider-label {
+  font-weight: 700;
+  color: #EEE6E3;
+  opacity: 0.9;
+  text-align: center;
+  font-size: 20px;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 100px;
+}
+
+.slider-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: #EEE6E3;
+  width: 160px;
+  text-align: left;
+  flex-shrink: 0;
+}
+
+/* --- GENERATE PAGE - CSAK A CSILLAGOK ÉS A GOMB --- */
+
+.survey-page.generate-page {
+  /* Kikapcsoljuk a gradienst, hogy átlátszanak a StarBackground pontjai */
+  background: transparent !important; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  height: 100dvh;
+  /* Optikai korrekció: 5-8%-kal feljebb toljuk a tartalom közepét */
+  padding-bottom: 8vh; 
+  box-sizing: border-box;
+}
+
+/* Result page should show particles only (no gradient) */
+.survey-page.result-page {
+  background: transparent !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+}
+
+.result-page .survey-main {
+  padding-top: 70px; /* keep header spacing consistent */
+}
+
+.result-page video {
+  width: 360px;
+  max-width: 90vw;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+  background: #000;
+}
+
+/* Biztosítjuk, hogy az egész oldal ne legyen sötétebb a kelleténél */
+.generate-page::before {
+  display: none !important; /* Ha van bármilyen overlay, azt itt lőjük ki */
+}
+
+.generate-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100dvh;
+}
+
+.pill.generate-btn {
+  /* Marad az elegáns Apple-stílusú gomb */
+  background: rgba(255, 255, 255, 0.1);
+  color: #EEE6E3;
+  border: 1.5px solid rgba(238, 230, 227, 0.5);
+  padding: 20px 80px;
+  border-radius: 999px;
+  font-size: 24px;
+  text-transform: lowercase;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  letter-spacing: 0.25em;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  box-shadow: 0 0 40px rgba(0,0,0,0.3);
+}
+
+
+/* --- EGYEDI CSÚSZKA STÍLUS --- */
+.custom-slider {
+  -webkit-appearance: none;
+  flex: 1;
+  height: 36px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  outline: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* --- VIDEO RESULT PAGE STÍLUSOK --- */
+
+.survey-page.video-page {
+  background: #000 !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.video-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.result-video {
+  /* A videó méretezése: ne vágja le, de legyen hangsúlyos */
+  max-width: 90%;
+  max-height: 80vh;
+  object-fit: contain;
+  
+  /* Egy kis finom ragyogás a videó köré, hogy ne legyen túl éles a széle */
+  filter: drop-shadow(0 0 30px rgba(238, 230, 227, 0.1));
+  
+  /* Beúszás animáció */
+  animation: videoFadeIn 2s ease-out;
+}
+
+@keyframes videoFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* A logó maradjon rögzítve a bal felső sarokban */
+.video-page .site-header {
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+}
+
+/* Chrome/Safari */
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 34px;
+  height: 34px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  margin-top: 0;
+}
+
+.custom-slider::-webkit-slider-thumb:active {
+  transform: scale(1.1);
+  background: #EEE6E3;
+}
+
+/* Firefox */
+.custom-slider::-moz-range-thumb {
+  width: 32px;
+  height: 32px;
+  background: #EEE6E3;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Page transition styles */
+.page-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: visible;
+}
+
+.page.transition {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1), opacity 360ms ease;
+  will-change: transform, opacity;
+}
+
+.page.transition.exit {
+  z-index: 14;
+  animation: pageExit 260ms forwards;
+}
+
+.page.transition.enter {
+  z-index: 16;
+  animation: pageEnter 360ms forwards;
+}
+
+@keyframes pageExit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered fade & slide */
+.page.transition.enter .stagger-1 { animation: fadeSlideIn 420ms cubic-bezier(.2,.9,.2,1) 0s both; }
+.page.transition.enter .stagger-2 { animation: fadeSlideIn 420ms cubic-bezier(.2,.9,.2,1) 80ms both; }
+.page.transition.enter .stagger-3 { animation: fadeSlideIn 420ms cubic-bezier(.2,.9,.2,1) 160ms both; }
+.page.transition.enter .stagger-4 { animation: fadeSlideIn 420ms cubic-bezier(.2,.9,.2,1) 240ms both; }
+
+.page.transition.exit .stagger-1 { animation: fadeSlideOut 260ms ease 200ms both; }
+.page.transition.exit .stagger-2 { animation: fadeSlideOut 240ms ease 160ms both; }
+.page.transition.exit .stagger-3 { animation: fadeSlideOut 220ms ease 80ms both; }
+.page.transition.exit .stagger-4 { animation: fadeSlideOut 200ms ease 0ms both; }
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+/* Smooth page enter animation */
+@keyframes smoothPageEnter {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.page-transition {
+  animation: smoothPageEnter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, opacity, filter;
+}
+
+/* =========================
+   TABLET / SMALL LAPTOP
+   ========================= */
+@media (max-width: 1024px) {
+  #docs {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  #next-steps ul {
+    margin-top: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #next-steps ul li {
+    flex: 1 1 calc(50% - 8px);
+  }
+
+  #next-steps ul a {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  #spacer {
+    height: 48px;
+  }
+
+  .survey-main {
+    padding-top: 0;
+  }
+
+  .survey-sub {
+  margin-top: 8px;
+  margin-bottom: 18px;
+}
+
+  .survey-footer {
+    min-height: 120px;
+    padding: 0 0 28px;
+  }
+
+  .title-block {
+    min-height: 180px;
+    padding: 5px 0px 0;
+    padding-top: 10px;
+    justify-content: flex-start;
+  }
+
+  .survey-title {
+    margin-top: 0;
+    margin-bottom: 12px;
+    line-height: 1.2;
+    font-size: clamp(28px, 4.5vh, 48px);
+  }
+
+  .pill-grid {
+    overflow-y: visible;
+    gap: 10px;
+    padding-bottom: 20px;
+  }
+
+  .pill {
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+  }
+
+  .arrow-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .back-arrow,
+  .next-arrow {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .dots {
+    gap: 18px;
+    align-items: center;
+    position: relative;
+    top: 1px;
+  }
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+@media (max-width: 768px) {
+  :root {
+    --side-margin: 16px;
+  }
+
+  .site-header {
+    top: 18px;
+    left: 16px;
+    right: 16px;
+  }
+
+  .site-header .logo {
+    font-size: 24px;
+  }
+
+  .site-header .lang {
+    gap: 6px;
+  }
+
+  .site-header .lang .lang-item {
+    font-size: 16px;
+    letter-spacing: 0.08em;
+    padding: 2px 3px;
+  }
+
+  .hero {
+    padding: 0 30px;
+  }
+
+  .hero-title {
+    font-size: clamp(30px, 11vw, 52px);
+    line-height: 1.15;
+  }
+
+  .hero-title .hero-line + .hero-line {
+    margin-top: 8px;
+  }
+
+  .hero-cta {
+    bottom: 28px;
+    width: calc(100% - 32px);
+  }
+
+  .pill.cta {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .survey-main {
+    padding-top: 70px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .title-block {
+    min-height: 130px;
+    padding: 0;
+    height: 130px; /* iPaden kicsit alacsonyabb, de itt is FIX */
+    padding-top: 30px;
+  }
+
+  .survey-title {
+    font-size: clamp(22px, 5vw, 36px);
+  }
+
+  .survey-sub {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+
+  .pill-grid {
+    gap: 10px;
+    overflow-y: auto;
+  }
+
+  .pill {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .survey-footer {
+    min-height: 90px;
+    padding: 0 0 14px;
+  }
+
+  .arrow-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .back-arrow {
+    left: 16px;
+  }
+
+  .next-arrow {
+    right: 16px;
+  }
+
+  .dots {
+    gap: 10px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .dot.active {
+    width: 12px;
+    height: 12px;
+  }
+
+  .slider-container {
+    max-width: 100%;
+    gap: 18px;
+    margin-top: 12px;
+    margin-bottom: 16px;
+    overflow-y: auto;
+  }
+
+  .slider-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .slider-label {
+    width: 100%;
+    font-size: 16px;
+    text-align: left;
+  }
+
+  .custom-slider {
+    height: 28px;
+  }
+
+  .custom-slider::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  .custom-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* =========================
+   LARGE LAPTOP / DESKTOP
+   ========================= */
+@media (min-width: 1280px) {
+  :root {
+    --side-margin: 36px;
+  }
+
+  .site-header {
+    left: 35px;
+    right: 35px;
+    top: 30px;
+  }
+
+  .hero {
+    padding: 5vh 5vw 0;
+  }
+
+  .hero-title {
+    font-size: clamp(72px, 8vw, 150px);
+    line-height: 1.1;
+  }
+
+  .hero-cta {
+    bottom: 64px;
+    padding: 16px 40px;
+  }
+
+  .survey-main {
+    padding-top: 120px;
+  }
+
+  .title-block {
+    min-height: 200px;
+    max-width: 1100px;
+    justify-content: flex-start;
+    padding-top: 15px;
+  }
+
+  .survey-title {
+    font-size: clamp(42px, 4vw, 64px);
+    line-height: 1.2;
+    align-self: stretch;
+  }
+
+  .survey-sub {
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 30px;
+  }
+
+  .pill-grid {
+    max-width: 1400px;
+    gap: 16px;
+    margin-top: 28px;
+    margin-bottom: 28px;
+  }
+
+  .pill {
+    max-width: 800px;
+    font-size: 16px;
+    padding: 16px 40px;
+    max-width: 90vw;
+    border-radius: 999px;
+  }
+
+  .survey-footer {
+    position: absolute;
+    bottom: 40px;
+    left: 35px;
+    right: 35px;
+    width: 100vw; /* Teljes szélesség */
+    padding: 0 40px 40px; /* Itt állítsd be, mennyire legyen a széleitől */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .back-arrow {
+    left: -30px;
+    align-items: center;
+  }
+
+  .next-arrow {
+    right: -30px;
+    align-items: center;
+  }
+
+  .arrow-icon {
+    width: 104px;
+    height: 104px;
+  }
+
+  .dots {
+    gap: 130px;
+    align-items: center;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+  }
+
+  .dot.active {
+    width: 18px;
+    height: 18px;
+  }
+
+  .slider-row {
+    gap: 100px;
+  }
+.slider-container {
+    max-width: 800px;
+    gap: 24px;
+    margin-top: 35px;
+    margin-bottom: 20px;
+  }
+
+  .slider-label {
+    font-size: 24px;
+    width: 160px;
+  }
+
+  .custom-slider {
+    height: 40px;
+  }
+
+  .custom-slider::-webkit-slider-thumb {
+    width: 36px;
+    height: 36px;
+  }
+
+  .custom-slider::-moz-range-thumb {
+    width: 36px;
+    height: 36px;
+  }
+}
