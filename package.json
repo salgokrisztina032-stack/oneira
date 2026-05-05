@@ -15,6 +15,7 @@
     "@tinymomentum/liquid-glass-vue": "^1.0.9",
     "cors": "^2.8.6",
     "express": "^5.2.1",
+    "firebase": "^12.12.1",
     "maath": "^0.10.8",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

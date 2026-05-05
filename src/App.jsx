@@ -3,6 +3,10 @@ import SimpleParticles from './SimpleParticles-2'
 import logo from './assets/logo_2.svg'
 import './App.css'
 
+// FIREBASE IMPORTOK - Ezek kellenek a tetejére
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set } from "firebase/database";
+
 const translations = {
   EN: {
     hero: ['Map the fragments', 'of a dream'],
@@ -52,22 +56,33 @@ const dreamData = {
   positive: ['food', 'money', 'newRoom', 'mentalAbility']
 }
 
+// FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyA8l3iVa1J0tSYAsFwfQvwqtsznNTlEyD8",
+  authDomain: "oneira-cloud.firebaseapp.com",
+  databaseURL: "https://oneira-cloud-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "oneira-cloud",
+  storageBucket: "oneira-cloud.firebasestorage.app",
+  messagingSenderId: "587787473490",
+  appId: "1:587787473490:web:bcdc3d913945c8b7dfc58b",
+  measurementId: "G-9RZZSGCC1F"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
 function ThinkingPage({ text, question, onComplete }) {
-  // A laggolás elkerülése érdekében useMemo-val bontjuk szavakra
   const words = useMemo(() => text.split(' '), [text]); 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showQuestion, setShowQuestion] = useState(false);
 
   useEffect(() => {
-    // 1. FÁZIS: Szavak megjelenítése egyenként
-    // Fontos: a feltétel currentIndex < words.length, így az utolsó szó is látszik
     if (currentIndex < words.length) {
       const timer = setTimeout(() => {
         setCurrentIndex(prev => prev + 1);
-      }, 1200); // Lassú, meditatív tempó
+      }, 1200);
       return () => clearTimeout(timer);
     } else {
-      // 2. FÁZIS: Ha a szavak elfogytak, várunk egy kicsit és váltunk a kérdésre
       const timer = setTimeout(() => {
         setShowQuestion(true);
       }, 1000);
@@ -76,52 +91,26 @@ function ThinkingPage({ text, question, onComplete }) {
   }, [currentIndex, words.length]);
 
   useEffect(() => {
-    // 20 másodperc után mindenképpen továbbvisz a Survey-re
     const timer = setTimeout(onComplete, 20000);
     return () => clearTimeout(timer);
   }, [onComplete]);
 
-  // Speciális dőlt betűs stílus az álom kulcsszavakra
   const getWordClass = (word) => {
     const w = word ? word.toLowerCase() : "";
     return (w.includes('dream') || w.includes('álmodat')) ? "hero-italic" : "";
   };
 
-  const textStyle = { 
-    color: '#EEE6E3', 
-    fontFamily: 'Sfizia, serif', 
-    fontWeight: 200, 
-    textAlign: 'center' 
-  };
+  const textStyle = { color: '#EEE6E3', fontFamily: 'Sfizia, serif', fontWeight: 200, textAlign: 'center' };
 
   return (
     <main className="hero">
       <div className="hero-inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
         {!showQuestion ? (
-          /* SZÓ-FÁZIS: Csak az aktuális szót mutatjuk nagyban */
-          <h1 
-            key={`word-${currentIndex}`} // Új key minden szónál az animáció újraindításához
-            className={`stagger-1 ${getWordClass(words[currentIndex])}`}
-            style={{ 
-              ...textStyle,
-              fontSize: 'clamp(40px, 10vw, 120px)', 
-              animation: 'smoothPageEnter 1s ease'
-            }}
-          >
+          <h1 key={`word-${currentIndex}`} className={`stagger-1 ${getWordClass(words[currentIndex])}`} style={{ ...textStyle, fontSize: 'clamp(40px, 10vw, 120px)', animation: 'smoothPageEnter 1s ease' }}>
             {words[currentIndex]}
           </h1>
         ) : (
-          /* KÉRDÉS-FÁZIS: A végén megjelenő mondat */
-          <h1 
-            className="hero-title stagger-1"
-            style={{ 
-              ...textStyle,
-              fontSize: 'clamp(32px, 7vw, 80px)', 
-              lineHeight: 1.4,
-              maxWidth: '1200px',
-              animation: 'smoothPageEnter 2s ease' // Lassabb, lágyabb megjelenés
-            }}
-          >
+          <h1 className="hero-title stagger-1" style={{ ...textStyle, fontSize: 'clamp(32px, 7vw, 80px)', lineHeight: 1.4, maxWidth: '1200px', animation: 'smoothPageEnter 2s ease' }}>
             {question}
           </h1>
         )}
@@ -130,7 +119,6 @@ function ThinkingPage({ text, question, onComplete }) {
   );
 }
 
-// FIXÁLT: Ismétlődő Typewriter fix pozícióval
 function Typewriter({ lines = [], speed = 60, repeatDelay = 10000 }) {
   const [typed, setTyped] = useState(() => lines.map(() => ''));
 
@@ -172,7 +160,6 @@ function Typewriter({ lines = [], speed = 60, repeatDelay = 10000 }) {
   );
 }
 
-// Eredeti komponensek (SurveyPage, FragmentPage, stb.) maradnak változatlanul...
 function SurveyPage({ t, selected = [], setSelected = () => {}, onNext }) {
   const groups = Object.keys(dreamData);
   const isEnabled = selected.length > 0;
@@ -183,10 +170,7 @@ function SurveyPage({ t, selected = [], setSelected = () => {}, onNext }) {
   return (
     <div className="survey-page">
       <main className="survey-main">
-        <div className="title-block">
-          <h2 className="survey-title stagger-1">{t.surveyTitle}</h2>
-          <p className="survey-sub stagger-2">{t.surveySub}</p>
-        </div>
+        <div className="title-block"><h2 className="survey-title stagger-1">{t.surveyTitle}</h2><p className="survey-sub stagger-2">{t.surveySub}</p></div>
         <div className="pill-grid stagger-3">
           {groups.map((groupId) => (
             <button key={groupId} type="button" className={`pill ${selected.includes(groupId) ? 'active' : ''}`} onClick={() => toggle(groupId)}>
@@ -214,10 +198,7 @@ function FragmentPage({ t, selectedGroups, selectedFragments, setSelectedFragmen
   return (
     <div className="survey-page fragment-page">
       <main className="survey-main">
-        <div className="title-block">
-          <h2 className="survey-title stagger-1">{t.fragmentsTitle}</h2>
-          <p className="survey-sub stagger-2">{t.fragmentsSub}</p>
-        </div>
+        <div className="title-block"><h2 className="survey-title stagger-1">{t.fragmentsTitle}</h2><p className="survey-sub stagger-2">{t.fragmentsSub}</p></div>
         <div className="pill-grid stagger-3">
           {availableFragments.map((fragmentId) => (
             <button key={fragmentId} className={`pill ${selectedFragments.includes(fragmentId) ? 'active' : ''}`} onClick={() => toggleFragment(fragmentId)}>
@@ -246,10 +227,7 @@ function EmotionPage({ t, emotions, setEmotions, onNext, onBack }) {
   return (
     <div className="survey-page emotion-page">
       <main className="survey-main">
-        <div className="title-block">
-          <h2 className="survey-title stagger-1">{t.emotionsTitle}</h2>
-          <p className="survey-sub stagger-2" aria-hidden="true">&nbsp;</p>
-        </div>
+        <div className="title-block"><h2 className="survey-title stagger-1">{t.emotionsTitle}</h2></div>
         <div className="slider-container stagger-3">
           {emotionList.map((emo) => {
             const val = emotions[emo.id] || 0;
@@ -337,6 +315,7 @@ function ResultPage() {
   );
 }
 
+// AZ EGYETLEN ÉS VÉGLEGES APP FÜGGVÉNY
 function App() {
   const [page, setPage] = useState('hero');
   const [selectedGroups, setSelectedGroups] = useState([]);
@@ -346,12 +325,21 @@ function App() {
   const [clarity, setClarity] = useState(50);
   const [identity, setIdentity] = useState('');
   const [particlePulse, setParticlePulse] = useState(0);
+  const [count, setCount] = useState(0);
 
   const t = translations[lang];
+
+  // FIREBASE BEKÖTÉS
+  useEffect(() => {
+    if (count > 0) {
+      set(ref(db, 'liveData/counter'), count);
+    }
+  }, [count]);
 
   const navigate = (to) => {
     if (to === page) return;
     setParticlePulse((p) => p + 1);
+    setCount(prev => prev + 1); // Minden navigálásnál növeljük a számlálót
     window.setTimeout(() => setPage(to), 260);
   }
 
@@ -363,24 +351,14 @@ function App() {
       case 'hero':
         return (
           <main className="hero">
-            <div className="hero-inner">
-              <Typewriter lines={t.hero} />
-            </div>
+            <div className="hero-inner"><Typewriter lines={t.hero} /></div>
             <div className="hero-cta stagger-3">
-              <button className="pill cta" onClick={() => navigate('thinking')}>
-                {t.cta}
-              </button>
+              <button className="pill cta" onClick={() => navigate('thinking')}>{t.cta}</button>
             </div>
           </main>
         );
       case 'thinking':
-  return (
-    <ThinkingPage 
-      text={t.thinking} 
-      question={t.thinkingQuestion} // EZ A SOR KELL, hogy megjelenjen a kérdés!
-      onComplete={() => navigate('survey')} 
-    />
-  );
+        return <ThinkingPage text={t.thinking} question={t.thinkingQuestion} onComplete={() => navigate('survey')} />;
       case 'survey':
         return <SurveyPage t={t} selected={selectedGroups} setSelected={setSelectedGroups} onNext={() => navigate('fragments')} />;
       case 'fragments':
@@ -402,9 +380,7 @@ function App() {
 
   return (
     <div className={`app-root ${lightModeActive ? 'light-mode survey-active' : ''}`}>
-      <div className="bg-canvas">
-        <SimpleParticles pulse={particlePulse} color={particleColor} />
-      </div>
+      <div className="bg-canvas"><SimpleParticles pulse={particlePulse} color={particleColor} /></div>
       <div className="grain" />
       <header className="site-header">
         <div className="logo" onClick={() => setPage('hero')} style={{ cursor: 'pointer' }}>
@@ -415,11 +391,7 @@ function App() {
           <button className={`lang-item ${lang === 'EN' ? 'active' : ''}`} onClick={() => setLang('EN')}>EN</button>
         </div>
       </header>
-      <div className="page-container">
-        <div key={page} className="page-transition">
-          {renderPage()}
-        </div>
-      </div>
+      <div className="page-container"><div key={page} className="page-transition">{renderPage()}</div></div>
     </div>
   )
 }
