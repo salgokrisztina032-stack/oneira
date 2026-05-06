@@ -199,42 +199,29 @@ function EmotionPage({ t, emotions, setEmotions, onNext, onBack }) {
     const bigint = parseInt(hex.replace('#', ''), 16);
     return `rgba(${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}, ${a})`;
   };
-  const list = [
-    { id: 'anger', color: '#7F0709' }, 
-    { id: 'anxiety', color: '#B1B4D5' }, 
-    { id: 'sadness', color: '#12122B' }, 
-    { id: 'confusion', color: '#5B4722' }, 
-    { id: 'happiness', color: '#E3A3A4' }
-  ];
+  const emotionList = [{ id: 'anger', color: '#7F0709' }, { id: 'anxiety', color: '#B1B4D5' }, { id: 'sadness', color: '#12122B' }, { id: 'confusion', color: '#5B4722' }, { id: 'happiness', color: '#E3A3A4' }];
   return (
-    <div className="survey-page">
+    <div className="survey-page emotion-page">
       <main className="survey-main">
-        <div className="title-block"><h2 className="survey-title">{t.emotionsTitle}</h2></div>
-        <div className="slider-container">
-          {list.map(emo => {
+        <div className="title-block"><h2 className="survey-title stagger-1">{t.emotionsTitle}</h2></div>
+        <div className="slider-container stagger-3">
+          {emotionList.map((emo) => {
             const val = emotions[emo.id] || 0;
             return (
               <div key={emo.id} className="slider-row">
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                  <span className="slider-label">{t.emotions[emo.id]}</span>
-                  <span className="slider-label">{val}%</span>
-                </div>
-                <input 
-                  type="range" 
-                  min="0" max="100" 
-                  value={val} 
-                  onChange={e => setEmotions({...emotions, [emo.id]: e.target.value})} 
-                  className="custom-slider" 
-                  style={{ background: `linear-gradient(to right, ${hexToRgba(emo.color, 0.2)} 0%, ${hexToRgba(emo.color, 0.9)} ${val}%, rgba(255,255,255,0.1) ${val}%)` }}
-                />
+                <span className="slider-label">{t.emotions[emo.id]}</span>
+                <input type="range" min="0" max="100" value={val} onChange={(e) => setEmotions({ ...emotions, [emo.id]: e.target.value })} className="custom-slider" style={{ background: `linear-gradient(to right, ${hexToRgba(emo.color, 0.12)} 0%, ${hexToRgba(emo.color, 0.95)} ${val}%, rgba(255,255,255,0.1) ${val}%, rgba(255,255,255,0.1) 100%)` }} />
               </div>
             );
           })}
         </div>
       </main>
-      <footer className="survey-footer">
-        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
+      <footer className="survey-footer stagger-4">
+        <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 2 ? 'active' : ''}`} />)}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
+          <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
+        </div>
       </footer>
     </div>
   );
