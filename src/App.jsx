@@ -230,28 +230,47 @@ function EmotionPage({ t, emotions, setEmotions, onNext, onBack }) {
 // JAVÍTOTT: Clarity csúszka mérete és százalék kijelzése
 function ClarityPage({ t, clarity, setClarity, onNext, onBack }) {
   return (
-    <div className="survey-page">
+    <div className="survey-page clarity-page">
       <main className="survey-main">
-        <div className="title-block"><h2 className="survey-title">{t.clarityTitle}</h2></div>
-        <div className="slider-container"> {/* Container az egységes mérethez */}
+        <div className="title-block">
+          <h2 className="survey-title stagger-1">{t.clarityTitle}</h2>
+        </div>
+        
+        <div className="slider-container stagger-3">
+          {/* A slider-row adja meg a fix szélességet és a százalék helyét */}
           <div className="slider-row">
-            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
               <span className="slider-label">{clarity}%</span>
             </div>
             <input 
               type="range" 
-              min="0" max="100" 
+              min="0" 
+              max="100" 
               value={clarity} 
-              onChange={e => setClarity(e.target.value)} 
+              onChange={(e) => setClarity(e.target.value)} 
               className="custom-slider" 
-              style={{ background: `linear-gradient(to right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) ${clarity}%, rgba(255,255,255,0.1) ${clarity}%)` }} 
+              style={{ 
+                width: '100%', 
+                background: `linear-gradient(to right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) ${clarity}%, rgba(255,255,255,0.1) ${clarity}%, rgba(255,255,255,0.1) 100%)` 
+              }} 
             />
           </div>
         </div>
       </main>
-      <footer className="survey-footer">
-        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
+
+      <footer className="survey-footer stagger-4">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div className="back-arrow visible" onClick={onBack}>
+            <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 12H4M4 12L10 6M4 12L10 18" />
+            </svg>
+          </div>
+          <div className="next-arrow visible" onClick={onNext}>
+            <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 12H20M20 12L14 6M20 12L14 18" />
+            </svg>
+          </div>
+        </div>
       </footer>
     </div>
   );
