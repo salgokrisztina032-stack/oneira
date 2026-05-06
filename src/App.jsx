@@ -1,9 +1,9 @@
-import React, { useState, useRef, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import SimpleParticles from './SimpleParticles-2'
 import logo from './assets/logo_2.svg'
 import './App.css'
 
-// FIREBASE IMPORTOK - Ezek kellenek a tetejére
+// FIREBASE IMPORTOK
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set } from "firebase/database";
 
@@ -42,7 +42,7 @@ const translations = {
     emotions: { anger: 'Düh', anxiety: 'Szorongás', sadness: 'Szomorúság', confusion: 'Zavarodottság', happiness: 'Boldogság' },
     identities: { male: 'férfi', female: 'nő', nonBinary: 'nem bináris', else: 'egyéb', noAnswer: 'nem szeretnék válaszolni' },
     groups: { identityBody: 'Identitás és testélmény', movementSpace: 'Mozgás és térélmény', anxietyStress: 'Szorongás és stressz', supernatural: 'Természetfeletti élmények', threatDanger: 'Fenyegetés és veszély', naturalDisasters: 'Természeti katasztrófák', positive: 'Pozitív élmények' },
-    fragments: { childAgain: 'Újra gyereknek lenni', teethFalling: 'Kihulló fogak', oppositeSex: 'Az ellenkező nemhez tartozni', animal: 'Állatnak lenni', object: 'Tárgynak lenni', movie: 'Moziban lenni', mirror: 'Látni magad a tükörben', paralyzed: 'Félálomban mozdulatlannak lenni', deadSelf: 'Halottként látni magad', closeFace: 'Nagyon közelről látni egy arcot', sexualExperiences: 'Szexuális élmények', abortion: 'Valaki abortuszon esik át', nude: 'Meztelennek lenni', flying: 'Repülés vagy lebegés a levegőben', swimming: 'Úszás', falling: 'Zuhanás', vergeFalling: 'A zuhanás határán lenni', vehicleControl: 'Jármű irányításának elvesztése', school: 'Iskola, tanárok, tanulás', late: 'Túl későn érkezni', exam: 'Vizsgán megbukni', dressed: 'Nem megfelelően öltözködni', againAgain: 'Valamit újra és újra megpróbálni', toilet: 'Nem találni mosdót vagy szégyellni a használatát', presence: 'Erőteljes jelenlét érzékelése', demon: 'Gonosz erővel vagy démonnal találkozni', magicalPowers: 'Mágikus képességek, de nem repülés', god: 'Találkozni Istennel', ufo: 'UFO-t látni', aliens: 'Földönkívülieket látni', creatures: 'Félig állati/emberi lények', crash: 'Látni egy repülő tárgy lezuhanását', angel: 'Angyalt látni', deadAlive: 'Egy elhunyt személyt élve látni', aliveDead: 'Egy élő személy halottnak látni', lunatics: 'Őrült vagy zavart emberek', anotherPlanet: 'Másik bolygóra utazni', tied: 'Megkötözve lenni, nem kapni levegőt', chased: 'Üldöznek vagy kergetnek', attacked: 'Fizikai támadás', killing: 'Megölni valakit', killed: 'Megölnek', smothered: 'Fulladás, lélegzethez jutás nélkül', locked: 'Bezárva lenni', frozen: 'Megdermedni a félelemtől', beasts: 'Vad, erőszakos állatok', snakes: 'Kígyók', insects: 'Rovarok vagy pókok', floods: 'Árvizek vagy szökőárak', tornadoes: 'Tornádók és erős szelek', fire: 'Tűz', earthquakes: 'Földrengések', food: 'Finom ételt enni', money: 'Pénzt találni', newRoom: 'Egy uj szobát felfedezni', mentalAbility: 'Kiválló szellemi képesség' }
+    fragments: { childAgain: 'Újra gyereknek lenni', teethFalling: 'Kihulló fogak', oppositeSex: 'Az ellenkező nemhez tartozni', animal: 'Állatnak lenni', object: 'Tárgynak lenni', movie: 'Moziban lenni', mirror: 'Látni magad a tükörben', paralyzed: 'Félálomban mozdulatlannak lenni', deadSelf: 'Halottként látni magad', closeFace: 'Nagyon közelről látni egy arcot', sexualExperiences: 'Szexuális élmények', abortion: 'Valaki abortuszon esik át', nude: 'Meztelennek leni', flying: 'Repülés vagy lebegés a levegőben', swimming: 'Úszás', falling: 'Zuhanás', vergeFalling: 'A zuhanás határán lenni', vehicleControl: 'Jármű irányításának elvesztése', school: 'Iskola, tanárok, tanulás', late: 'Túl későn érkezni', exam: 'Vizsgán megbukni', dressed: 'Nem megfelelően öltözködni', againAgain: 'Valamit újra és újra megpróbálni', toilet: 'Nem találni mosdót vagy szégyellni a használatát', presence: 'Erőteljes jelenlét érzékelése', demon: 'Gonosz erővel vagy démonnal találkozni', magicalPowers: 'Mágikus képességek, de nem repülés', god: 'Találkozni Istennel', ufo: 'UFO-t látni', aliens: 'Földönkívülieket látni', creatures: 'Félig állati/emberi lények', crash: 'Látni egy repülő tárgy lezuhanását', angel: 'Angyalt látni', deadAlive: 'Egy elhunyt személyt élve látni', aliveDead: 'Egy élő személy halottnak látni', lunatics: 'Őrült vagy zavart emberek', anotherPlanet: 'Másik bolygóra utazni', tied: 'Megkötözve lenni, nem kapni levegőt', chased: 'Üldöznek vagy kergetnek', attacked: 'Fizikai támadás', killing: 'Megölni valakit', killed: 'Megölnek', smothered: 'Fulladás, lélegzethez jutás nélkül', locked: 'Bezárva lenni', frozen: 'Megdermedni a félelemtől', beasts: 'Vad, erőszakos állatok', snakes: 'Kígyók', insects: 'Rovarok vagy pókok', floods: 'Árvizek vagy szökőárak', tornadoes: 'Tornádók és erős szelek', fire: 'Tűz', earthquakes: 'Földrengések', food: 'Finom ételt enni', money: 'Pénzt találni', newRoom: 'Egy uj szobát felfedezni', mentalAbility: 'Kiválló szellemi képesség' }
   }
 }
 
@@ -71,6 +71,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// SEGÉDKOMPONENSEK
 function ThinkingPage({ text, question, onComplete }) {
   const words = useMemo(() => text.split(' '), [text]); 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -78,14 +79,10 @@ function ThinkingPage({ text, question, onComplete }) {
 
   useEffect(() => {
     if (currentIndex < words.length) {
-      const timer = setTimeout(() => {
-        setCurrentIndex(prev => prev + 1);
-      }, 1200);
+      const timer = setTimeout(() => { setCurrentIndex(prev => prev + 1); }, 1200);
       return () => clearTimeout(timer);
     } else {
-      const timer = setTimeout(() => {
-        setShowQuestion(true);
-      }, 1000);
+      const timer = setTimeout(() => { setShowQuestion(true); }, 1000);
       return () => clearTimeout(timer);
     }
   }, [currentIndex, words.length]);
@@ -100,17 +97,15 @@ function ThinkingPage({ text, question, onComplete }) {
     return (w.includes('dream') || w.includes('álmodat')) ? "hero-italic" : "";
   };
 
-  const textStyle = { color: '#EEE6E3', fontFamily: 'Sfizia, serif', fontWeight: 200, textAlign: 'center' };
-
   return (
     <main className="hero">
       <div className="hero-inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
         {!showQuestion ? (
-          <h1 key={`word-${currentIndex}`} className={`stagger-1 ${getWordClass(words[currentIndex])}`} style={{ ...textStyle, fontSize: 'clamp(40px, 10vw, 120px)', animation: 'smoothPageEnter 1s ease' }}>
+          <h1 key={`word-${currentIndex}`} className={`stagger-1 ${getWordClass(words[currentIndex])}`} style={{ color: '#EEE6E3', fontFamily: 'Sfizia, serif', fontSize: 'clamp(40px, 10vw, 120px)', textAlign: 'center', animation: 'smoothPageEnter 1s ease' }}>
             {words[currentIndex]}
           </h1>
         ) : (
-          <h1 className="hero-title stagger-1" style={{ ...textStyle, fontSize: 'clamp(32px, 7vw, 80px)', lineHeight: 1.4, maxWidth: '1200px', animation: 'smoothPageEnter 2s ease' }}>
+          <h1 className="hero-title stagger-1" style={{ color: '#EEE6E3', fontFamily: 'Sfizia, serif', fontSize: 'clamp(32px, 7vw, 80px)', textAlign: 'center', lineHeight: 1.4, maxWidth: '1200px', animation: 'smoothPageEnter 2s ease' }}>
             {question}
           </h1>
         )}
@@ -121,7 +116,6 @@ function ThinkingPage({ text, question, onComplete }) {
 
 function Typewriter({ lines = [], speed = 60, repeatDelay = 10000 }) {
   const [typed, setTyped] = useState(() => lines.map(() => ''));
-
   useEffect(() => {
     let isCancelled = false;
     const run = async () => {
@@ -131,11 +125,7 @@ function Typewriter({ lines = [], speed = 60, repeatDelay = 10000 }) {
         for (let i = 0; i < lines.length; i++) {
           for (let k = 0; k <= lines[i].length; k++) {
             if (isCancelled) return;
-            setTyped(prev => {
-              const next = [...prev];
-              next[i] = lines[i].slice(0, k);
-              return next;
-            });
+            setTyped(prev => { const next = [...prev]; next[i] = lines[i].slice(0, k); return next; });
             await new Promise(r => setTimeout(r, speed));
           }
         }
@@ -160,92 +150,69 @@ function Typewriter({ lines = [], speed = 60, repeatDelay = 10000 }) {
   );
 }
 
-function SurveyPage({ t, selected = [], setSelected = () => {}, onNext }) {
+function SurveyPage({ t, selected, setSelected, onNext }) {
   const groups = Object.keys(dreamData);
-  const isEnabled = selected.length > 0;
-  const toggle = (groupId) => {
-    if (selected.includes(groupId)) { setSelected(selected.filter((s) => s !== groupId)); } 
-    else if (selected.length < 2) { setSelected([...selected, groupId]); }
+  const toggle = (id) => {
+    if (selected.includes(id)) setSelected(selected.filter(s => s !== id));
+    else if (selected.length < 2) setSelected([...selected, id]);
   };
   return (
     <div className="survey-page">
       <main className="survey-main">
-        <div className="title-block"><h2 className="survey-title stagger-1">{t.surveyTitle}</h2><p className="survey-sub stagger-2">{t.surveySub}</p></div>
-        <div className="pill-grid stagger-3">
-          {groups.map((groupId) => (
-            <button key={groupId} type="button" className={`pill ${selected.includes(groupId) ? 'active' : ''}`} onClick={() => toggle(groupId)}>
-              {t.groups[groupId]}
-            </button>
-          ))}
+        <div className="title-block"><h2 className="survey-title">{t.surveyTitle}</h2><p className="survey-sub">{t.surveySub}</p></div>
+        <div className="pill-grid">
+          {groups.map(id => <button key={id} className={`pill ${selected.includes(id) ? 'active' : ''}`} onClick={() => toggle(id)}>{t.groups[id]}</button>)}
         </div>
       </main>
-      <footer className="survey-footer stagger-4">
-        <div className="dots">{[...Array(6)].map((_, i) => (<span key={i} className={`dot ${i === 0 ? 'active' : ''}`} />))}</div>
-        <div className={`next-arrow visible ${!isEnabled ? 'disabled' : ''}`} onClick={isEnabled ? onNext : undefined}>
-          <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg>
+      <footer className="survey-footer">
+        <div className={`next-arrow visible ${selected.length === 0 ? 'disabled' : ''}`} onClick={selected.length > 0 ? onNext : undefined}>
+          <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg>
         </div>
       </footer>
     </div>
   );
 }
 
-function FragmentPage({ t, selectedGroups, selectedFragments, setSelectedFragments, onNext, onBack }) {
-  const availableFragments = useMemo(() => selectedGroups.flatMap((groupId) => dreamData[groupId] || []), [selectedGroups]);
-  const toggleFragment = (fragmentId) => {
-    if (selectedFragments.includes(fragmentId)) { setSelectedFragments(selectedFragments.filter((item) => item !== fragmentId)); } 
-    else if (selectedFragments.length < 3) { setSelectedFragments([...selectedFragments, fragmentId]); }
+function FragmentPage({ t, selectedGroups, selected, setSelected, onNext, onBack }) {
+  const fragments = selectedGroups.flatMap(id => dreamData[id] || []);
+  const toggle = (id) => {
+    if (selected.includes(id)) setSelected(selected.filter(s => s !== id));
+    else if (selected.length < 3) setSelected([...selected, id]);
   };
   return (
-    <div className="survey-page fragment-page">
+    <div className="survey-page">
       <main className="survey-main">
-        <div className="title-block"><h2 className="survey-title stagger-1">{t.fragmentsTitle}</h2><p className="survey-sub stagger-2">{t.fragmentsSub}</p></div>
-        <div className="pill-grid stagger-3">
-          {availableFragments.map((fragmentId) => (
-            <button key={fragmentId} className={`pill ${selectedFragments.includes(fragmentId) ? 'active' : ''}`} onClick={() => toggleFragment(fragmentId)}>
-              {t.fragments[fragmentId]}
-            </button>
-          ))}
+        <div className="title-block"><h2 className="survey-title">{t.fragmentsTitle}</h2><p className="survey-sub">{t.fragmentsSub}</p></div>
+        <div className="pill-grid">
+          {fragments.map(id => <button key={id} className={`pill ${selected.includes(id) ? 'active' : ''}`} onClick={() => toggle(id)}>{t.fragments[id]}</button>)}
         </div>
       </main>
-      <footer className="survey-footer stagger-4">
-        <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 1 ? 'active' : ''}`} />)}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-          <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
-        </div>
+      <footer className="survey-footer">
+        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
+        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
       </footer>
     </div>
   );
 }
 
 function EmotionPage({ t, emotions, setEmotions, onNext, onBack }) {
-  const hexToRgba = (hex, a = 1) => {
-    const bigint = parseInt(hex.replace('#', ''), 16);
-    return `rgba(${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}, ${a})`;
-  };
-  const emotionList = [{ id: 'anger', color: '#7F0709' }, { id: 'anxiety', color: '#B1B4D5' }, { id: 'sadness', color: '#12122B' }, { id: 'confusion', color: '#5B4722' }, { id: 'happiness', color: '#E3A3A4' }];
+  const list = [{ id: 'anger', color: '#7F0709' }, { id: 'anxiety', color: '#B1B4D5' }, { id: 'sadness', color: '#12122B' }, { id: 'confusion', color: '#5B4722' }, { id: 'happiness', color: '#E3A3A4' }];
   return (
-    <div className="survey-page emotion-page">
+    <div className="survey-page">
       <main className="survey-main">
-        <div className="title-block"><h2 className="survey-title stagger-1">{t.emotionsTitle}</h2></div>
-        <div className="slider-container stagger-3">
-          {emotionList.map((emo) => {
-            const val = emotions[emo.id] || 0;
-            return (
-              <div key={emo.id} className="slider-row">
-                <span className="slider-label">{t.emotions[emo.id]}</span>
-                <input type="range" min="0" max="100" value={val} onChange={(e) => setEmotions({ ...emotions, [emo.id]: e.target.value })} className="custom-slider" style={{ background: `linear-gradient(to right, ${hexToRgba(emo.color, 0.12)} 0%, ${hexToRgba(emo.color, 0.95)} ${val}%, rgba(255,255,255,0.1) ${val}%, rgba(255,255,255,0.1) 100%)` }} />
-              </div>
-            );
-          })}
+        <div className="title-block"><h2 className="survey-title">{t.emotionsTitle}</h2></div>
+        <div className="slider-container">
+          {list.map(emo => (
+            <div key={emo.id} className="slider-row">
+              <span className="slider-label">{t.emotions[emo.id]}</span>
+              <input type="range" value={emotions[emo.id]} onChange={e => setEmotions({...emotions, [emo.id]: e.target.value})} className="custom-slider" />
+            </div>
+          ))}
         </div>
       </main>
-      <footer className="survey-footer stagger-4">
-        <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 2 ? 'active' : ''}`} />)}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-          <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
-        </div>
+      <footer className="survey-footer">
+        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
+        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
       </footer>
     </div>
   );
@@ -253,42 +220,32 @@ function EmotionPage({ t, emotions, setEmotions, onNext, onBack }) {
 
 function ClarityPage({ t, clarity, setClarity, onNext, onBack }) {
   return (
-    <div className="survey-page clarity-page">
+    <div className="survey-page">
       <main className="survey-main">
-        <div className="title-block"><h2 className="survey-title stagger-1">{t.clarityTitle}</h2></div>
-        <div className="slider-container stagger-3">
-          <input type="range" min="0" max="100" value={clarity} onChange={(e) => setClarity(e.target.value)} className="custom-slider" style={{ width: '100%', background: `linear-gradient(to right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) ${clarity}%, rgba(255,255,255,0.1) ${clarity}%, rgba(255,255,255,0.1) 100%)` }} />
-        </div>
+        <div className="title-block"><h2 className="survey-title">{t.clarityTitle}</h2></div>
+        <input type="range" value={clarity} onChange={e => setClarity(e.target.value)} className="custom-slider" style={{ width: '100%' }} />
       </main>
-      <footer className="survey-footer stagger-4">
-        <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 3 ? 'active' : ''}`} />)}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-          <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
-        </div>
+      <footer className="survey-footer">
+        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
+        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
       </footer>
     </div>
   );
 }
 
-function IdentityPage({ t, selectedIdentity, setSelectedIdentity, onNext, onBack }) {
-  const identities = ['male', 'female', 'nonBinary', 'else', 'noAnswer'];
+function IdentityPage({ t, selected, setSelected, onNext, onBack }) {
+  const ids = ['male', 'female', 'nonBinary', 'else', 'noAnswer'];
   return (
-    <div className="survey-page identity-page">
+    <div className="survey-page">
       <main className="survey-main">
-        <div className="title-block"><h2 className="survey-title stagger-1">{t.identityTitle}</h2></div>
-        <div className="pill-grid vertical stagger-3">
-          {identities.map((id) => (
-            <button key={id} className={`pill ${selectedIdentity === id ? 'active' : ''}`} onClick={() => setSelectedIdentity(id)}>{t.identities[id]}</button>
-          ))}
+        <div className="title-block"><h2 className="survey-title">{t.identityTitle}</h2></div>
+        <div className="pill-grid vertical">
+          {ids.map(id => <button key={id} className={`pill ${selected === id ? 'active' : ''}`} onClick={() => setSelected(id)}>{t.identities[id]}</button>)}
         </div>
       </main>
-      <footer className="survey-footer stagger-4">
-        <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 4 ? 'active' : ''}`} />)}</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-          <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
-        </div>
+      <footer className="survey-footer">
+        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
+        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
       </footer>
     </div>
   );
@@ -304,18 +261,7 @@ function GeneratePage({ t, onGenerate }) {
   );
 }
 
-function ResultPage() {
-  const videoRef = useRef(null);
-  return (
-    <div className="survey-page result-page">
-      <main className="survey-main">
-        <video ref={videoRef} src="/prototype_box.mov" controls autoPlay style={{ width: '360px', borderRadius: 8, background: '#000' }} />
-      </main>
-    </div>
-  );
-}
-
-// AZ EGYETLEN ÉS VÉGLEGES APP FÜGGVÉNY
+// APP KOMPONENS
 function App() {
   const [page, setPage] = useState('hero');
   const [selectedGroups, setSelectedGroups] = useState([]);
@@ -324,68 +270,54 @@ function App() {
   const [emotions, setEmotions] = useState({ anger: 0, anxiety: 0, sadness: 0, confusion: 0, happiness: 0 });
   const [clarity, setClarity] = useState(50);
   const [identity, setIdentity] = useState('');
-  const [particlePulse, setParticlePulse] = useState(0);
-  const [count, setCount] = useState(0);
+  const [pulse, setPulse] = useState(0);
 
   const t = translations[lang];
 
-  // FIREBASE BEKÖTÉS
-  useEffect(() => {
-    if (count > 0) {
-      set(ref(db, 'liveData/counter'), count);
-    }
-  }, [count]);
-
   const navigate = (to) => {
-    if (to === page) return;
-    setParticlePulse((p) => p + 1);
-    setCount(prev => prev + 1); // Minden navigálásnál növeljük a számlálót
+    setPulse(p => p + 1);
     window.setTimeout(() => setPage(to), 260);
-  }
+  };
 
-  const lightModeActive = ['survey', 'fragments', 'emotions', 'clarity', 'identity'].includes(page);
-  const particleColor = 0xeee6e3;
+  const handleGenerate = () => {
+    const data = {
+      timestamp: new Date().getTime(),
+      groups: selectedGroups,
+      fragments: selectedFragments,
+      emotions: emotions,
+      clarity: clarity,
+      identity: identity
+    };
+    set(ref(db, 'latestSurvey'), data);
+    
+    // Reset és visszatérés az elejére
+    setSelectedGroups([]);
+    setSelectedFragments([]);
+    setEmotions({ anger: 0, anxiety: 0, sadness: 0, confusion: 0, happiness: 0 });
+    setIdentity('');
+    navigate('hero'); 
+  };
 
   const renderPage = () => {
     switch (page) {
-      case 'hero':
-        return (
-          <main className="hero">
-            <div className="hero-inner"><Typewriter lines={t.hero} /></div>
-            <div className="hero-cta stagger-3">
-              <button className="pill cta" onClick={() => navigate('thinking')}>{t.cta}</button>
-            </div>
-          </main>
-        );
-      case 'thinking':
-        return <ThinkingPage text={t.thinking} question={t.thinkingQuestion} onComplete={() => navigate('survey')} />;
-      case 'survey':
-        return <SurveyPage t={t} selected={selectedGroups} setSelected={setSelectedGroups} onNext={() => navigate('fragments')} />;
-      case 'fragments':
-        return <FragmentPage t={t} selectedGroups={selectedGroups} selectedFragments={selectedFragments} setSelectedFragments={setSelectedFragments} onBack={() => navigate('survey')} onNext={() => navigate('emotions')} />;
-      case 'emotions':
-        return <EmotionPage t={t} emotions={emotions} setEmotions={setEmotions} onBack={() => navigate('fragments')} onNext={() => navigate('clarity')} />;
-      case 'clarity':
-        return <ClarityPage t={t} clarity={clarity} setClarity={setClarity} onBack={() => navigate('emotions')} onNext={() => navigate('identity')} />;
-      case 'identity':
-        return <IdentityPage t={t} selectedIdentity={identity} setSelectedIdentity={setIdentity} onBack={() => navigate('clarity')} onNext={() => navigate('generate')} />;
-      case 'generate':
-        return <GeneratePage t={t} onGenerate={() => navigate('result')} />;
-      case 'result':
-        return <ResultPage />;
-      default:
-        return null;
+      case 'hero': return <main className="hero"><div className="hero-inner"><Typewriter lines={t.hero} /></div><div className="hero-cta"><button className="pill cta" onClick={() => navigate('thinking')}>{t.cta}</button></div></main>;
+      case 'thinking': return <ThinkingPage text={t.thinking} question={t.thinkingQuestion} onComplete={() => navigate('survey')} />;
+      case 'survey': return <SurveyPage t={t} selected={selectedGroups} setSelected={setSelectedGroups} onNext={() => navigate('fragments')} />;
+      case 'fragments': return <FragmentPage t={t} selectedGroups={selectedGroups} selected={selectedFragments} setSelected={setSelectedFragments} onBack={() => navigate('survey')} onNext={() => navigate('emotions')} />;
+      case 'emotions': return <EmotionPage t={t} emotions={emotions} setEmotions={setEmotions} onBack={() => navigate('fragments')} onNext={() => navigate('clarity')} />;
+      case 'clarity': return <ClarityPage t={t} clarity={clarity} setClarity={setClarity} onBack={() => navigate('emotions')} onNext={() => navigate('identity')} />;
+      case 'identity': return <IdentityPage t={t} selected={identity} setSelected={setIdentity} onBack={() => navigate('clarity')} onNext={() => navigate('generate')} />;
+      case 'generate': return <GeneratePage t={t} onGenerate={handleGenerate} />;
+      default: return null;
     }
-  }
+  };
 
   return (
-    <div className={`app-root ${lightModeActive ? 'light-mode survey-active' : ''}`}>
-      <div className="bg-canvas"><SimpleParticles pulse={particlePulse} color={particleColor} /></div>
+    <div className={`app-root ${['survey', 'fragments', 'emotions', 'clarity', 'identity'].includes(page) ? 'light-mode survey-active' : ''}`}>
+      <div className="bg-canvas"><SimpleParticles pulse={pulse} color={0xeee6e3} /></div>
       <div className="grain" />
       <header className="site-header">
-        <div className="logo" onClick={() => setPage('hero')} style={{ cursor: 'pointer' }}>
-          <img src={logo} alt="oneira logo" className="logo-img" />
-        </div>
+        <div className="logo" onClick={() => navigate('hero')} style={{ cursor: 'pointer' }}><img src={logo} alt="logo" className="logo-img" /></div>
         <div className="lang">
           <button className={`lang-item ${lang === 'HU' ? 'active' : ''}`} onClick={() => setLang('HU')}>HU</button>
           <button className={`lang-item ${lang === 'EN' ? 'active' : ''}`} onClick={() => setLang('EN')}>EN</button>
@@ -393,7 +325,7 @@ function App() {
       </header>
       <div className="page-container"><div key={page} className="page-transition">{renderPage()}</div></div>
     </div>
-  )
+  );
 }
 
 export default App;
