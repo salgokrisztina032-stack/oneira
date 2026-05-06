@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import SimpleParticles from './SimpleParticles-2'
 import logo from './assets/logo_2.svg'
 import './App.css'
@@ -10,7 +10,7 @@ import { getDatabase, ref, set } from "firebase/database";
 const translations = {
   EN: {
     hero: ['Map the fragments', 'of a dream'],
-    thinking: 'think through your last dream carefully',
+    thinking: 'Think through your last dream carefully...',
     thinkingQuestion: '...where were you exactly?',
     cta: 'get started',
     surveyTitle: <>What was the <span className="hero-italic">last dream</span><br /> you remember?</>,
@@ -22,13 +22,13 @@ const translations = {
     identityTitle: <>How would you describe <br /> your <span className="hero-italic">gender</span> identity?</>,
     generate: 'generate',
     emotions: { anger: 'Anger', anxiety: 'Anxiety', sadness: 'Sadness', confusion: 'Confusion', happiness: 'Happiness' },
-    identities: { male: 'male', female: 'female', nonBinary: 'non-binary', else: 'else', noAnswer: "I don't want to answer" },
+    identities: { male: 'male', female: 'female', nonBinary: 'non-binary', else: 'else', noAnswer: "Prefer not to say" },
     groups: { identityBody: 'Identity & Body Experience', movementSpace: 'Movement & Spatial Experience', anxietyStress: 'Anxiety & Stress', supernatural: 'Supernatural Experiences', threatDanger: 'Threat & Danger', naturalDisasters: 'Natural Disasters', positive: 'Positive Experiences' },
     fragments: { childAgain: 'Being a child again', teethFalling: 'Teeth falling out', oppositeSex: 'Being a member of opposite sex', animal: 'Being an animal', object: 'Being an object', movie: 'Being at a movie', mirror: 'Seeing yourself in a mirror', paralyzed: 'Half awake and paralyzed', deadSelf: 'Seeing yourself as dead', closeFace: 'Seeing a face very close', sexualExperiences: 'Sexual experiences', abortion: 'Someone having an abortion', nude: 'Being nude', flying: 'Flying or soaring through the air', swimming: 'Swimming', falling: 'Falling', vergeFalling: 'Being on the verge of falling', vehicleControl: 'Losing control of a vehicle', school: 'School, teachers, studying', late: 'Arriving too late', exam: 'Failing an examination', dressed: 'Being inappropriately dressed', againAgain: 'Trying something again and again', toilet: 'Being unable to find or embarrassed about using a toilet', presence: 'Vividly sensing a presence', demon: 'Encountering a kind of evil force or demon', magicalPowers: 'Magical powers, not flying', god: 'Encountering God', ufo: 'Seeing a UFO', aliens: 'Seeing extra-terrestrials', creatures: 'Creatures, part animal/human', crash: 'Seeing a flying object crash', angel: 'Seeing an angel', deadAlive: 'A person now dead being alive', aliveDead: 'A person now alive being dead', lunatics: 'Lunatics or insane people', anotherPlanet: 'Traveling to another planet', tied: 'Being tied, unable to breath', chased: 'Being chased or pursued', attacked: 'Being physically attacked', killing: 'Killing someone', killed: 'Being killed', smothered: 'Smothered, unable to breath', locked: 'Being locked up', frozen: 'Being frozen with fright', beasts: 'Wild, violent beasts', snakes: 'Snakes', insects: 'Insects or spiders', floods: 'Floods or tidal waves', tornadoes: 'Tornadoes and strong winds', fire: 'Fire', earthquakes: 'Earthquakes', food: 'Eating delicious food', money: 'Finding money', newRoom: 'Discovering a new room', mentalAbility: 'Superior mental ability' }
   },
   HU: {
     hero: ['Térképezd fel az', 'álmaidat'],
-    thinking: 'gondold végig alaposan a legutolsó álmodat',
+    thinking: 'Gondold végig alaposan a legutolsó álmodat...',
     thinkingQuestion: '...hol voltál pontosan?',
     cta: 'kezdjük',
     surveyTitle: <>Mi volt az <span className="hero-italic">legutolsó álom</span><br /> amire emlékszel?</>,
@@ -42,7 +42,7 @@ const translations = {
     emotions: { anger: 'Düh', anxiety: 'Szorongás', sadness: 'Szomorúság', confusion: 'Zavarodottság', happiness: 'Boldogság' },
     identities: { male: 'férfi', female: 'nő', nonBinary: 'nem bináris', else: 'egyéb', noAnswer: 'nem szeretnék válaszolni' },
     groups: { identityBody: 'Identitás és testélmény', movementSpace: 'Mozgás és térélmény', anxietyStress: 'Szorongás és stressz', supernatural: 'Természetfeletti élmények', threatDanger: 'Fenyegetés és veszély', naturalDisasters: 'Természeti katasztrófák', positive: 'Pozitív élmények' },
-    fragments: { childAgain: 'Újra gyereknek lenni', teethFalling: 'Kihulló fogak', oppositeSex: 'Az ellenkező nemhez tartozni', animal: 'Állatnak lenni', object: 'Tárgynak lenni', movie: 'Moziban lenni', mirror: 'Látni magad a tükörben', paralyzed: 'Félálomban mozdulatlannak lenni', deadSelf: 'Halottként látni magad', closeFace: 'Nagyon közelről látni egy arcot', sexualExperiences: 'Szexuális élmények', abortion: 'Valaki abortuszon esik át', nude: 'Meztelennek leni', flying: 'Repülés vagy lebegés a levegőben', swimming: 'Úszás', falling: 'Zuhanás', vergeFalling: 'A zuhanás határán lenni', vehicleControl: 'Jármű irányításának elvesztése', school: 'Iskola, tanárok, tanulás', late: 'Túl későn érkezni', exam: 'Vizsgán megbukni', dressed: 'Nem megfelelően öltözködni', againAgain: 'Valamit újra és újra megpróbálni', toilet: 'Nem találni mosdót vagy szégyellni a használatát', presence: 'Erőteljes jelenlét érzékelése', demon: 'Gonosz erővel vagy démonnal találkozni', magicalPowers: 'Mágikus képességek, de nem repülés', god: 'Találkozni Istennel', ufo: 'UFO-t látni', aliens: 'Földönkívülieket látni', creatures: 'Félig állati/emberi lények', crash: 'Látni egy repülő tárgy lezuhanását', angel: 'Angyalt látni', deadAlive: 'Egy elhunyt személyt élve látni', aliveDead: 'Egy élő személy halottnak látni', lunatics: 'Őrült vagy zavart emberek', anotherPlanet: 'Másik bolygóra utazni', tied: 'Megkötözve lenni, nem kapni levegőt', chased: 'Üldöznek vagy kergetnek', attacked: 'Fizikai támadás', killing: 'Megölni valakit', killed: 'Megölnek', smothered: 'Fulladás, lélegzethez jutás nélkül', locked: 'Bezárva lenni', frozen: 'Megdermedni a félelemtől', beasts: 'Vad, erőszakos állatok', snakes: 'Kígyók', insects: 'Rovarok vagy pókok', floods: 'Árvizek vagy szökőárak', tornadoes: 'Tornádók és erős szelek', fire: 'Tűz', earthquakes: 'Földrengések', food: 'Finom ételt enni', money: 'Pénzt találni', newRoom: 'Egy uj szobát felfedezni', mentalAbility: 'Kiválló szellemi képesség' }
+    fragments: { childAgain: 'Újra gyereknek lenni', teethFalling: 'Kihulló fogak', oppositeSex: 'Az ellenkező nemhez tartozni', animal: 'Állatnak lenni', object: 'Tárgynak lenni', movie: 'Moziban lenni', mirror: 'Látni magad a tükörben', paralyzed: 'Félálomban mozdulatlannak lenni', deadSelf: 'Halottként látni magad', closeFace: 'Nagyon közelről látni egy arcot', sexualExperiences: 'Szexuális élmények', abortion: 'Valaki abortuszon esik át', nude: 'Meztelennek lenni', flying: 'Repülés vagy lebegés a levegőben', swimming: 'Úszás', falling: 'Zuhanás', vergeFalling: 'A zuhanás határán lenni', vehicleControl: 'Jármű irányításának elvesztése', school: 'Iskola, tanárok, tanulás', late: 'Túl későn érkezni', exam: 'Vizsgán megbukni', dressed: 'Nem megfelelően öltözködni', againAgain: 'Valamit újra és újra megpróbálni', toilet: 'Nem találni mosdót vagy szégyellni a használatát', presence: 'Erőteljes jelenlét érzékelése', demon: 'Gonosz erővel vagy démonnal találkozni', magicalPowers: 'Mágikus képességek, de nem repülés', god: 'Találkozni Istennel', ufo: 'UFO-t látni', aliens: 'Földönkívülieket látni', creatures: 'Félig állati/emberi lények', crash: 'Látni egy repülő tárgy lezuhanását', angel: 'Angyalt látni', deadAlive: 'Egy elhunyt személyt élve látni', aliveDead: 'Egy élő személy halottnak látni', lunatics: 'Őrült vagy zavart emberek', anotherPlanet: 'Másik bolygóra utazni', tied: 'Megkötözve lenni, nem kapni levegőt', chased: 'Üldöznek vagy kergetnek', attacked: 'Fizikai támadás', killing: 'Megölni valakit', killed: 'Megölnek', smothered: 'Fulladás, lélegzethez jutás nélkül', locked: 'Bezárva lenni', frozen: 'Megdermedni a félelemtől', beasts: 'Vad, erőszakos állatok', snakes: 'Kígyók', insects: 'Rovarok vagy pókok', floods: 'Árvizek vagy szökőárak', tornadoes: 'Tornádók és erős szelek', fire: 'Tűz', earthquakes: 'Földrengések', food: 'Finom ételt enni', money: 'Pénzt találni', newRoom: 'Egy uj szobát felfedezni', mentalAbility: 'Kiválló szellemi képesség' }
   }
 }
 
@@ -56,7 +56,6 @@ const dreamData = {
   positive: ['food', 'money', 'newRoom', 'mentalAbility']
 }
 
-// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyA8l3iVa1J0tSYAsFwfQvwqtsznNTlEyD8",
   authDomain: "oneira-cloud.firebaseapp.com",
@@ -71,43 +70,42 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// SEGÉDKOMPONENSEK
+// JAVÍTOTT: Mondatonkénti ThinkingPage lassú átúszással
 function ThinkingPage({ text, question, onComplete }) {
-  const words = useMemo(() => text.split(' '), [text]); 
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [showQuestion, setShowQuestion] = useState(false);
 
   useEffect(() => {
-    if (currentIndex < words.length) {
-      const timer = setTimeout(() => { setCurrentIndex(prev => prev + 1); }, 1200);
-      return () => clearTimeout(timer);
-    } else {
-      const timer = setTimeout(() => { setShowQuestion(true); }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [currentIndex, words.length]);
+    // 10 másodperc után váltunk a második mondatra
+    const timer = setTimeout(() => {
+      setShowQuestion(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
+    // Összesen 20 másodperc után megyünk tovább a Survey-re
     const timer = setTimeout(onComplete, 20000);
     return () => clearTimeout(timer);
   }, [onComplete]);
 
-  const getWordClass = (word) => {
-    const w = word ? word.toLowerCase() : "";
-    return (w.includes('dream') || w.includes('álmodat')) ? "hero-italic" : "";
+  const textStyle = { 
+    color: '#EEE6E3', 
+    fontFamily: 'Sfizia, serif', 
+    fontWeight: 200, 
+    textAlign: 'center',
+    fontSize: 'clamp(32px, 7vw, 80px)',
+    lineHeight: 1.4,
+    maxWidth: '1200px',
+    animation: 'smoothPageEnter 3s ease' // Lassú megjelenés
   };
 
   return (
     <main className="hero">
       <div className="hero-inner" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
         {!showQuestion ? (
-          <h1 key={`word-${currentIndex}`} className={`stagger-1 ${getWordClass(words[currentIndex])}`} style={{ color: '#EEE6E3', fontFamily: 'Sfizia, serif', fontSize: 'clamp(40px, 10vw, 120px)', textAlign: 'center', animation: 'smoothPageEnter 1s ease' }}>
-            {words[currentIndex]}
-          </h1>
+          <h1 key="first" style={textStyle}>{text}</h1>
         ) : (
-          <h1 className="hero-title stagger-1" style={{ color: '#EEE6E3', fontFamily: 'Sfizia, serif', fontSize: 'clamp(32px, 7vw, 80px)', textAlign: 'center', lineHeight: 1.4, maxWidth: '1200px', animation: 'smoothPageEnter 2s ease' }}>
-            {question}
-          </h1>
+          <h1 key="second" style={textStyle}>{question}</h1>
         )}
       </div>
     </main>
@@ -195,19 +193,43 @@ function FragmentPage({ t, selectedGroups, selected, setSelected, onNext, onBack
   );
 }
 
+// JAVÍTOTT: Visszahozott színek az EmotionPage csúszkáinál
 function EmotionPage({ t, emotions, setEmotions, onNext, onBack }) {
-  const list = [{ id: 'anger', color: '#7F0709' }, { id: 'anxiety', color: '#B1B4D5' }, { id: 'sadness', color: '#12122B' }, { id: 'confusion', color: '#5B4722' }, { id: 'happiness', color: '#E3A3A4' }];
+  const hexToRgba = (hex, a = 1) => {
+    const bigint = parseInt(hex.replace('#', ''), 16);
+    return `rgba(${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}, ${a})`;
+  };
+  const list = [
+    { id: 'anger', color: '#7F0709' }, 
+    { id: 'anxiety', color: '#B1B4D5' }, 
+    { id: 'sadness', color: '#12122B' }, 
+    { id: 'confusion', color: '#5B4722' }, 
+    { id: 'happiness', color: '#E3A3A4' }
+  ];
   return (
     <div className="survey-page">
       <main className="survey-main">
         <div className="title-block"><h2 className="survey-title">{t.emotionsTitle}</h2></div>
         <div className="slider-container">
-          {list.map(emo => (
-            <div key={emo.id} className="slider-row">
-              <span className="slider-label">{t.emotions[emo.id]}</span>
-              <input type="range" value={emotions[emo.id]} onChange={e => setEmotions({...emotions, [emo.id]: e.target.value})} className="custom-slider" />
-            </div>
-          ))}
+          {list.map(emo => {
+            const val = emotions[emo.id] || 0;
+            return (
+              <div key={emo.id} className="slider-row">
+                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                  <span className="slider-label">{t.emotions[emo.id]}</span>
+                  <span className="slider-label">{val}%</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="0" max="100" 
+                  value={val} 
+                  onChange={e => setEmotions({...emotions, [emo.id]: e.target.value})} 
+                  className="custom-slider" 
+                  style={{ background: `linear-gradient(to right, ${hexToRgba(emo.color, 0.2)} 0%, ${hexToRgba(emo.color, 0.9)} ${val}%, rgba(255,255,255,0.1) ${val}%)` }}
+                />
+              </div>
+            );
+          })}
         </div>
       </main>
       <footer className="survey-footer">
@@ -218,12 +240,27 @@ function EmotionPage({ t, emotions, setEmotions, onNext, onBack }) {
   );
 }
 
+// JAVÍTOTT: Clarity csúszka mérete és százalék kijelzése
 function ClarityPage({ t, clarity, setClarity, onNext, onBack }) {
   return (
     <div className="survey-page">
       <main className="survey-main">
         <div className="title-block"><h2 className="survey-title">{t.clarityTitle}</h2></div>
-        <input type="range" value={clarity} onChange={e => setClarity(e.target.value)} className="custom-slider" style={{ width: '100%' }} />
+        <div className="slider-container"> {/* Container az egységes mérethez */}
+          <div className="slider-row">
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+              <span className="slider-label">{clarity}%</span>
+            </div>
+            <input 
+              type="range" 
+              min="0" max="100" 
+              value={clarity} 
+              onChange={e => setClarity(e.target.value)} 
+              className="custom-slider" 
+              style={{ background: `linear-gradient(to right, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.8) ${clarity}%, rgba(255,255,255,0.1) ${clarity}%)` }} 
+            />
+          </div>
+        </div>
       </main>
       <footer className="survey-footer">
         <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
@@ -261,7 +298,6 @@ function GeneratePage({ t, onGenerate }) {
   );
 }
 
-// APP KOMPONENS
 function App() {
   const [page, setPage] = useState('hero');
   const [selectedGroups, setSelectedGroups] = useState([]);
@@ -290,7 +326,7 @@ function App() {
     };
     set(ref(db, 'latestSurvey'), data);
     
-    // Reset és visszatérés az elejére
+    // Reset és visszatérés
     setSelectedGroups([]);
     setSelectedFragments([]);
     setEmotions({ anger: 0, anxiety: 0, sadness: 0, confusion: 0, happiness: 0 });
