@@ -205,6 +205,7 @@ body,
   display: flex;
   justify-content: center;
   z-index: 100;
+
 }
 
 .pill.cta {
@@ -545,10 +546,13 @@ body,
   text-align: center;
   white-space: normal;
   word-break: break-word;
-  background: rgba(255, 255, 255, 0.001);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(100px) saturate(100%) brightness(110%);
-  -webkit-backdrop-filter: blur(100px) saturate(100%) brightness(110%);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(214, 214, 214, 0.7);
+  backdrop-filter: blur(7px) saturate(150%);
+  -webkit-backdrop-filter: blur(7px) saturate(150%);
+  box-shadow:
+    0 2px 20px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.15) inset;
   box-shadow: none;
   outline: none;
 }
@@ -557,7 +561,7 @@ body,
 .pill.active,
 .pill:active {
   color: rgba(26, 26, 26, 1) !important;
-  background: rgba(238, 230, 227, 0.4) !important;
+  background: rgba(238, 230, 227, 0.5) !important;
   border: 1px solid rgba(255, 255, 255, 0.60) !important;
   backdrop-filter: blur(1px) !important;
   -webkit-backdrop-filter: blur(1px) !important;
@@ -923,14 +927,14 @@ body,
   }
   to {
     opacity: 0;
-    transform: translateY(-12px);
+    transform: translateY(-20px);
   }
 }
 
 @keyframes pageEnter {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -967,7 +971,7 @@ body,
   }
   to {
     opacity: 0;
-    transform: translateY(-8px);
+    transform: translateY(-20px);
   }
 }
 
@@ -975,7 +979,7 @@ body,
 @keyframes smoothPageEnter {
   0% {
     opacity: 0;
-    transform: scale(0.98);
+    transform: scale(1);
   }
   100% {
     opacity: 1;
@@ -984,7 +988,7 @@ body,
 }
 
 .page-transition {
-  animation: smoothPageEnter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: none !important;
 }
 
 /* =========================
