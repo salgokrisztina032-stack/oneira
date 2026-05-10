@@ -5,7 +5,7 @@ import './App.css'
 
 // FIREBASE IMPORTOK
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, push } from "firebase/database";
 
 const translations = {
   EN: {
@@ -332,6 +332,10 @@ function App() {
     };
     set(ref(db, 'latestSurvey'), data);
     
+const archiveRef = ref(db, 'archive');
+    const newEntryRef = push(archiveRef); 
+    set(newEntryRef, data);
+
     // Reset és visszatérés
     setSelectedGroups([]);
     setSelectedFragments([]);
