@@ -176,7 +176,6 @@
 /* --- Hero page styles --- */
 .app-root {
   position: relative;
-  isolation: isolate;
   width: 100%;
   min-height: 100dvh;
   display: flex;
@@ -210,25 +209,20 @@ body,
 
 .pill.cta {
   position: relative;
-  overflow: hidden;
-
-  background: rgba(255,255,255,0.199);
-  border: 1px solid rgba(255,255,255,0.5);
-
-  backdrop-filter: blur(100px);
-  -webkit-backdrop-filter: blur(100px);
-
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(214, 214, 214, 0.7);
+  backdrop-filter: blur(7px) saturate(150%);
+  -webkit-backdrop-filter: blur(7px) saturate(150%);
+  box-shadow:
+    0 2px 20px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.15) inset;
   padding: 16px 40px;
   max-width: 220px;
   border-radius: 999px;
-
-  color: #EEE6E3;
+  color: rgba(255, 255, 255, 0.8);
   font-size: 16px;
   text-transform: lowercase;
-
-  box-shadow:
-    0 6px 6px rgba(0,0,0,0.45),
-    inset 0 1px 0 rgba(255,255,255,0.15);
+  cursor: pointer;
 }
 
 .pill:active {
@@ -910,7 +904,6 @@ body,
   display: flex;
   flex-direction: column;
   transition: transform 360ms cubic-bezier(.2,.9,.2,1), opacity 360ms ease;
-  will-change: transform, opacity;
 }
 
 .page.transition.exit {
@@ -983,18 +976,15 @@ body,
   0% {
     opacity: 0;
     transform: scale(0.98);
-    filter: blur(4px);
   }
   100% {
     opacity: 1;
     transform: scale(1);
-    filter: blur(0);
   }
 }
 
 .page-transition {
   animation: smoothPageEnter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  will-change: transform, opacity, filter;
 }
 
 /* =========================
