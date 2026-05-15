@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SimpleParticles from './SimpleParticles-2'
-import logo from './assets/logo_2.svg'
+import logo from './assets/logo_3.svg'
 import './App.css'
 
 // FIREBASE IMPORTOK
@@ -42,7 +42,7 @@ const translations = {
     emotions: { anger: 'Düh', anxiety: 'Szorongás', sadness: 'Szomorúság', confusion: 'Zavarodottság', happiness: 'Boldogság' },
     identities: { male: 'férfi', female: 'nő', nonBinary: 'nem bináris', else: 'egyéb', noAnswer: 'nem szeretnék válaszolni' },
     groups: { identityBody: 'Identitás és testélmény', movementSpace: 'Mozgás és térélmény', anxietyStress: 'Szorongás és stressz', supernatural: 'Természetfeletti élmények', threatDanger: 'Fenyegetés és veszély', naturalDisasters: 'Természeti katasztrófák', positive: 'Pozitív élmények' },
-    fragments: { childAgain: 'Újra gyereknek lenni', teethFalling: 'Kihulló fogak', oppositeSex: 'Az ellenkező nemhez tartozni', animal: 'Állatnak lenni', object: 'Tárgynak lenni', movie: 'Moziban lenni', mirror: 'Látni magad a tükörben', paralyzed: 'Félálomban mozdulatlannak lenni', deadSelf: 'Halottként látni magad', closeFace: 'Nagyon közelről látni egy arcot', sexualExperiences: 'Szexuális élmények', abortion: 'Valaki abortuszon esik át', nude: 'Meztelennek lenni', flying: 'Repülés vagy lebegés a levegőben', swimming: 'Úszás', falling: 'Zuhanás', vergeFalling: 'A zuhanás határán lenni', vehicleControl: 'Jármű irányításának elvesztése', school: 'Iskola, tanárok, tanulás', late: 'Túl későn érkezni', exam: 'Vizsgán megbukni', dressed: 'Nem megfelelően öltözködni', againAgain: 'Valamit újra és újra megpróbálni', toilet: 'Nem találni a mosdót vagy szégyellni annak használatát', presence: 'Erőteljes jelenlét érzékelése', demon: 'Gonosz erővel vagy démonnal találkozni', magicalPowers: 'Mágikus képességek, de nem repülés', god: 'Találkozni Istennel', ufo: 'UFO-t látni', aliens: 'Földönkívülieket látni', creatures: 'Félig állati/emberi lények', crash: 'Látni egy repülő objektum lezuhanását', angel: 'Angyalt látni', deadAlive: 'Egy elhunyt személyt élve látni', aliveDead: 'Egy élő személy halottnak látni', lunatics: 'Őrült vagy zavart emberek', anotherPlanet: 'Másik bolygóra utazni', tied: 'Megkötözve lenni, nem kapni levegőt', chased: 'Üldöznek vagy kergetnek', attacked: 'Fizikai támadás', killing: 'Megölni valakit', killed: 'Megölnek', smothered: 'Fulladás, lélegzethez jutás nélkül', locked: 'Bezárva lenni', frozen: 'Megdermedni a félelemtől', beasts: 'Vad, erőszakos állatok', snakes: 'Kígyók', insects: 'Rovarok vagy pókok', floods: 'Árvizek vagy szökőárak', tornadoes: 'Tornádók és erős szelek', fire: 'Tűz', earthquakes: 'Földrengések', food: 'Finom ételt enni', money: 'Pénzt találni', newRoom: 'Egy uj szobát felfedezni', mentalAbility: 'Kiválló szellemi képesség' }
+    fragments: { childAgain: 'Újra gyereknek lenni', teethFalling: 'Kihulló fogak', oppositeSex: 'Az ellenkező nemhez tartozni', animal: 'Állatnak lenni', object: 'Tárgynak lenni', movie: 'Moziban lenni', mirror: 'Látni magad a tükörben', paralyzed: 'Félálomban mozdulatlannak lenni', deadSelf: 'Halottként látni magad', closeFace: 'Nagyon közelről látni egy arcot', sexualExperiences: 'Szexuális élmények', abortion: 'Valaki abortuszon esik át', nude: 'Meztelennek lenni', flying: 'Repülés vagy lebegés a levegőben', swimming: 'Úszás', falling: 'Zuhanás', vergeFalling: 'A zuhanás határán lenni', vehicleControl: 'Jármű irányításának elvesztése', school: 'Iskola, tanárok, tanulás', late: 'Túl későn érkezni', exam: 'Vizsgán megbukni', dressed: 'Nem megfelelően öltözködni', againAgain: 'Valamit újra és újra megpróbálni', toilet: 'Nem találni a mosdót vagy szégyellni annak használatát', presence: 'Erőteljes jelenlét érzékelése', demon: 'Gonosz erővel vagy démonnal találkozni', magicalPowers: 'Mágikus képességek, de nem repülés', god: 'Találkozni Istennel', ufo: 'UFO-t látni', aliens: 'Földönkívülieket látni', creatures: 'Félig állati/emberi lények', crash: 'Látni egy repülő objektum lezuhanását', angel: 'Angyalt látni', deadAlive: 'Egy elhunyt személyt élve látni', aliveDead: 'Egy élő személy halottnak látni', lunatics: 'Őrült vagy zavart emberek', anotherPlanet: 'Másik bolygóra utazni', tied: 'Megkötözve lenni, nem kapni levegőt', chased: 'Üldöznek vagy kergetnek', attacked: 'Fizikai támadás', killing: 'Megölni valakit', killed: 'Megölnek', smothered: 'Fulladás, lélegzethez jutás nélkül', locked: 'Bezárva lenni', frozen: 'Megdermedni a félelemtől', beasts: 'Vad, erőszakos állatok', snakes: 'Kígyók', insects: 'Rovarok vagy pókok', floods: 'Árvizek vagy szökőárak', tornadoes: 'Tornádók és erős szelek', fire: 'Tűz', earthquakes: 'Földrengések', food: 'Finom ételt enni', money: 'Pénzt találni', newRoom: 'Egy uj szobát felfedezni', mentalAbility: 'Kiváló szellemi képesség' }
   }
 }
 
@@ -163,8 +163,10 @@ function SurveyPage({ t, selected, setSelected, onNext }) {
         </div>
       </main>
       <footer className="survey-footer">
+         <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 0 ? 'active' : ''}`} />)}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}></div>
         <div className={`next-arrow visible ${selected.length === 0 ? 'disabled' : ''}`} onClick={selected.length > 0 ? onNext : undefined}>
-          <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg>
+          <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg>
         </div>
       </footer>
     </div>
@@ -186,8 +188,10 @@ function FragmentPage({ t, selectedGroups, selected, setSelected, onNext, onBack
         </div>
       </main>
       <footer className="survey-footer">
-        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
+         <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 1 ? 'active' : ''}`} />)}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}></div>
+        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
+        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
       </footer>
     </div>
   );
@@ -265,6 +269,8 @@ function ClarityPage({ t, clarity, setClarity, onNext, onBack }) {
               <path d="M18 12H4M4 12L10 6M4 12L10 18" />
             </svg>
           </div>
+           <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 3 ? 'active' : ''}`} />)}</div>
+           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}></div>
           <div className="next-arrow visible" onClick={onNext}>
             <svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 12H20M20 12L14 6M20 12L14 18" />
@@ -287,8 +293,10 @@ function IdentityPage({ t, selected, setSelected, onNext, onBack }) {
         </div>
       </main>
       <footer className="survey-footer">
-        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
-        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
+         <div className="dots">{[...Array(6)].map((_, i) => <span key={i} className={`dot ${i === 4 ? 'active' : ''}`} />)}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}></div>
+        <div className="back-arrow visible" onClick={onBack}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 12H4M4 12L10 6M4 12L10 18" /></svg></div>
+        <div className="next-arrow visible" onClick={onNext}><svg className="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 12H20M20 12L14 6M20 12L14 18" /></svg></div>
       </footer>
     </div>
   );
@@ -324,6 +332,7 @@ function App() {
   const handleGenerate = () => {
     const data = {
       timestamp: new Date().getTime(),
+      lang: lang,
       groups: selectedGroups,
       fragments: selectedFragments,
       emotions: emotions,
@@ -332,7 +341,7 @@ function App() {
     };
     set(ref(db, 'latestSurvey'), data);
     
-const archiveRef = ref(db, 'archive');
+    const archiveRef = ref(db, 'archive');
     const newEntryRef = push(archiveRef); 
     set(newEntryRef, data);
 
@@ -340,6 +349,7 @@ const archiveRef = ref(db, 'archive');
     setSelectedGroups([]);
     setSelectedFragments([]);
     setEmotions({ anger: 0, anxiety: 0, sadness: 0, confusion: 0, happiness: 0 });
+    setClarity(50);
     setIdentity('');
     navigate('hero'); 
   };

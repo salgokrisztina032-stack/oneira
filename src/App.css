@@ -49,7 +49,7 @@
 
 /* Light pages (survey steps) → dark header text */
 .light-mode {
-  --header-color: #1A1A1A;
+  --header-color: #454545;
   --border: rgba(0, 0, 0, 0.1);
   --text-h: #1A1A1A;
 }
@@ -276,13 +276,13 @@ body,
 
 .logo-img {
   /* Itt már akkorára állíthatod, amekkorára csak akarod! */
-  height: 160px; /* Próbáld ki pl. 120px-szel */
+  height: 145px; /* Próbáld ki pl. 120px-szel */
   width: auto;
   
   /* Abszolút pozícióval kivesszük a sorból */
   position: absolute;
   top: 50%;
-  left: -38px;
+  left: -20px;
   transform: translateY(-50%); /* Tökéletesen középre igazítja a láthatatlan ponthoz képest */
   
   display: block;
@@ -636,7 +636,7 @@ body,
   height: 10px;
   border-radius: 50%;
   background: #EEE6E3;
-  opacity: 0.2;
+  opacity: 0.5;
 }
 
 .dot.active {
@@ -796,6 +796,7 @@ body,
   -webkit-backdrop-filter: blur(15px);
   letter-spacing: 0.25em;
   cursor: pointer;
+  letter-spacing: 0.06em;
   transition: all 0.5s ease;
   box-shadow: 0 0 40px rgba(0,0,0,0.3);
 }

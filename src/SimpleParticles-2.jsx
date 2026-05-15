@@ -69,19 +69,22 @@ export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
     // Landscape-shaped particle field — wider in x, shallow in y, moderate depth
     const count = 8000
     const positions = new Float32Array(count * 3)
+    const initialY  = new Float32Array(count)
     const phases    = new Float32Array(count)
 
     for (let i = 0; i < count; i++) {
-      const x = (Math.random() * 2 - 1) * 22          // wide spread
-      const z = (Math.random() * 2 - 1) * 7           // moderate depth
-      // Base height follows a gentle terrain so the cloud looks like a landscape
+      const x = (Math.random() * 2 - 1) * 22
+      const z = (Math.random() * 2 - 1) * 7
       const baseY =
         Math.sin(x * 0.14) * 2.2 +
         Math.sin(z * 0.28) * 1.4 +
-        (Math.random() - 0.5) * 3.5                   // some vertical scatter
+        (Math.random() - 0.5) * 2.0 // kevesebb függőleges scatter a stabilitásért
+      
       positions[i * 3 + 0] = x
-      positions[i * 3 + 1] = baseY - 4               // centre the mass slightly below horizon
+      positions[i * 3 + 1] = baseY - 4
       positions[i * 3 + 2] = z
+      
+      initialY[i] = baseY - 4 // Eltároljuk az alaphelyzetet
       phases[i] = Math.random() * Math.PI * 2
     }
 
