@@ -4,20 +4,21 @@ import * as THREE from 'three'
 // Small, performant point-cloud variant — floating landscape-style particle field
 export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
   const mountRef = useRef(null)
-  // Keep pulse and color in refs so the animation loop always reads latest values
-  // without needing to tear down and recreate the whole scene
-  const pulseRef = useRef(pulse)
+  
+  const lastPulsePropRef = useRef(pulse)
+  const flashIntensityRef = useRef(0)
   const colorRef = useRef(color)
   const materialRef = useRef(null)
 
-  // Sync pulse + color into refs whenever props change
   useEffect(() => {
-    pulseRef.current = pulse
+    if (pulse !== lastPulsePropRef.current) {
+      lastPulsePropRef.current = pulse
+      flashIntensityRef.current = 1.0 // Kattintáskor maximumra ugrik a villanás ereje
+    }
   }, [pulse])
 
   useEffect(() => {
     colorRef.current = color
-    // Also update the live material if it exists
     if (materialRef.current) {
       materialRef.current.color.set(color)
     }
@@ -41,13 +42,12 @@ export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
     const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 500)
     camera.position.set(0, 0, 15)
 
-    // Soft glowing sprite for each point
     const sprite = document.createElement('canvas')
     sprite.width = 80
     sprite.height = 80
     const ctx = sprite.getContext('2d')
     const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
-    g.addColorStop(0,   'rgba(255,255,255,0.5)')
+    g.addColorStop(0,   'rgba(255,255,255,0.6)') 
     g.addColorStop(0.2, 'rgba(255,255,255,0.9)')
     g.addColorStop(0.6, 'rgba(255,255,255,0.2)')
     g.addColorStop(1,   'rgba(255,255,255,0)')
@@ -57,19 +57,18 @@ export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
     tex.minFilter = THREE.LinearFilter
 
     const material = new THREE.PointsMaterial({
-      size: 0.20,
+      size: 0.20, // Alapméret
       map: tex,
       transparent: true,
       depthWrite: false,
+      opacity: 0.85, 
       color: new THREE.Color(colorRef.current),
+      blending: THREE.AdditiveBlending 
     })
-    // Store reference so color updates can reach it
     materialRef.current = material
 
-    // Landscape-shaped particle field — wider in x, shallow in y, moderate depth
     const count = 8000
     const positions = new Float32Array(count * 3)
-    const initialY  = new Float32Array(count)
     const phases    = new Float32Array(count)
 
     for (let i = 0; i < count; i++) {
@@ -78,13 +77,12 @@ export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
       const baseY =
         Math.sin(x * 0.14) * 2.2 +
         Math.sin(z * 0.28) * 1.4 +
-        (Math.random() - 0.5) * 2.0 // kevesebb függőleges scatter a stabilitásért
+        (Math.random() - 0.5) * 2.0
       
       positions[i * 3 + 0] = x
       positions[i * 3 + 1] = baseY - 4
       positions[i * 3 + 2] = z
       
-      initialY[i] = baseY - 4 // Eltároljuk az alaphelyzetet
       phases[i] = Math.random() * Math.PI * 2
     }
 
@@ -98,9 +96,21 @@ export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
 
     function animate() {
       raf = requestAnimationFrame(animate)
-      t += 0.007
+      t += 0.012 
 
-      const pulse = pulseRef.current || 0
+      // Picit lassabb lecsengés (0.95 helyett 0.93), hogy a drámai villanásnak legyen ideje kifutni
+      flashIntensityRef.current *= 0.93 
+      if (flashIntensityRef.current < 0.001) flashIntensityRef.current = 0
+
+      if (materialRef.current) {
+        // 1. Opacitás villanás (0.85 -> 1.0)
+        materialRef.current.opacity = 0.85 + (flashIntensityRef.current * 0.15)
+        
+        // 2. ÚJ: Méret alapú extra villanás (Alapméret 0.20, ami kattintáskor felugrik 0.45-re)
+        // Ez adja meg a kért átütő, erősebb izzást a hálónak, rángatózás nélkül
+        materialRef.current.size = 0.20 + (flashIntensityRef.current * 0.25)
+      }
+
       const arr = geom.getAttribute('position').array
 
       for (let i = 0; i < count; i++) {
@@ -108,22 +118,18 @@ export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
         const x  = arr[i3]
         const z  = arr[i3 + 2]
 
-        // Target height: slow wave across the landscape surface
         const targetY =
           Math.sin(x * 0.13 + t * 0.85 + phases[i]) * 2.0 +
           Math.sin(z * 0.30 - t * 0.50 + phases[i] * 0.7) * 1.2 +
           Math.sin((x + z) * 0.09 + t * 0.40) * 1.5 -
-          4 // keep centred below horizon
+          4
 
-        // Spring toward target — pulse increases stiffness for a gentle swell effect
-        const dy = (targetY - arr[i3 + 1]) * 0.032 * (1 + pulse * 1.1)
+        const dy = (targetY - arr[i3 + 1]) * 0.032
         arr[i3 + 1] += dy * 0.88
 
-        // Subtle lateral drift for organic feel
-        arr[i3]     += Math.sin(z * 0.04 + t * 0.55 + phases[i]) * 0.0012 * (1 + pulse * 1.0)
+        arr[i3]     += Math.sin(z * 0.04 + t * 0.55 + phases[i]) * 0.0012
         arr[i3 + 2] += Math.cos(x * 0.04 + t * 0.45 + phases[i]) * 0.0008
 
-        // Soft boundary — nudge particles back if they drift too far
         if (arr[i3]     >  24) arr[i3]     -= 0.09
         if (arr[i3]     < -24) arr[i3]     += 0.09
         if (arr[i3 + 2] >   9) arr[i3 + 2] -= 0.03
@@ -155,16 +161,11 @@ export default function SimpleParticles({ pulse = 0, color = 0xeee6e3 }) {
       materialRef.current = null
       if (el.contains(renderer.domElement)) el.removeChild(renderer.domElement)
     }
-  }, []) // scene only created once — pulse/color kept in sync via refs above
+  }, [])
 
   return (
-    <div
-      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-    >
-      <div
-        ref={mountRef}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-      />
+    <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+      <div ref={mountRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} />
     </div>
   )
 }
